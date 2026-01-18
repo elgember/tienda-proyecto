@@ -8,6 +8,8 @@ import { Cupon } from './Componente/Cupon';
 import { BarraEnvio } from './Componente/BarraEnvio';
 import { ProductDetalles } from './Componente/ProductDetalles';
 import { HistorialCupon } from './Componente/HistorialCupon';
+import { CompraAhora } from './Componente/CompraAhora';
+
 
 function App() {
 
@@ -156,6 +158,7 @@ useEffect(() => {
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
           <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
+          <Route path='/compraAhora' element={<CompraAhora /> } />
         </Routes>
         <IrToCart cart={cart} totalItems={totalItems} totalFinal={totalFinal} />
       </main>

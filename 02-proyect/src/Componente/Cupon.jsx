@@ -44,7 +44,8 @@ export const Cupon = ({ setDescuento, eliminarCupon, usado, setUsado, setNombreC
             'OFERTA': 50,
             'OFERTON': 20,
             'PRO': 20,
-            'OFER': 20
+            'OFER': 20,
+            'LE': 20
         }
 
         if(!cuponesValidos[codigoLimpio]) {
