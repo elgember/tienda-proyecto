@@ -145,7 +145,7 @@ useEffect(() => {
     setDescuento(0);
     setNombreCuponActivo('');
 
-    alert('Gracias por tu compra ! Tu pedido esta en proceso');
+    alert(`Gracias por tu compra, pagste $${totalFinal}`);
   };
 
   return (
@@ -158,7 +158,7 @@ useEffect(() => {
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
           <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
-          <Route path='/compraAhora' element={<CompraAhora /> } />
+          <Route path='/compraAhora' element={<CompraAhora descuento={descuento} totalFinal={totalFinal} finalizarCompra={finalizarCompra}  /> } />
         </Routes>
         <IrToCart cart={cart} totalItems={totalItems} totalFinal={totalFinal} />
       </main>
