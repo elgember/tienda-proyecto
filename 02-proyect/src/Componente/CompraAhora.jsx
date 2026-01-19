@@ -20,11 +20,11 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
     <div className="container__garantia">
         {misProductos.map((product) => {
             return (
-        <div key={product.id} className="img__garantia">
+        <div key={product.id} className="garantia">
             <h2 className="title__garantia">Agrega una proteccion para este producto</h2>
-            <div>
-                <img src={product.image} alt={product.title} />
-                <div>
+            <div className="garantia__product">
+                <img className="image__garantia" src={product.image} alt={product.title} />
+                <div className="proteccion__product">
                     <h5>proteccion para:</h5>
                     <p>{product.title}</p>
                 </div>
