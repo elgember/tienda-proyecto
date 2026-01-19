@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { IrCupon } from "./page/IrCupon";
 import { BarraEnvio } from "./BarraEnvio";
 
-export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems, totalFinal, ahorro, descuento, subTotal, finalizarCompra }) => {
+export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems, totalFinal, ahorro, descuento, subTotal, finalizarCompra, irAGarantia }) => {
 
     const metaEnvio = 200;
 
@@ -72,7 +72,7 @@ export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems
             )}
                 </div>
                     <div className="continuar__compra">
-                        <button className="btn__compra" onClick={finalizarCompra}>Continuar Compra</button>
+                        <button className="btn__compra" onClick={irAGarantia}>Continuar Compra</button>
                     </div>
                 </div>
             </div>

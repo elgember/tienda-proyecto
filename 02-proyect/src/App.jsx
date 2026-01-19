@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { ProductList } from './Componente/ProductList';
 import { IrToCart } from './Componente/page/IrToCart';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { Cart } from './Componente/Cart';
 import { Cupon } from './Componente/Cupon';
 import { BarraEnvio } from './Componente/BarraEnvio';
@@ -12,6 +12,8 @@ import { CompraAhora } from './Componente/CompraAhora';
 
 
 function App() {
+
+  const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
 
@@ -133,7 +135,7 @@ useEffect(() => {
   
     const [nombreCuponActivo, setNombreCuponActivo] = useState('');
 
-    const finalizarCompra = () => {
+    const irAGarantia = () => {
       if (cart.length === 0) return alert('Carrito esta vacio');
 
     if (nombreCuponActivo) {
@@ -141,24 +143,28 @@ useEffect(() => {
       setUsado([...usado, nombreCuponActivo]);
     }
 
-    setCart([]);
-    setDescuento(0);
-    setNombreCuponActivo('');
-
-    alert(`Gracias por tu compra, pagste $${totalFinal}`);
+    navigate('./compraAhora' , {state: {misProductos: cart} });
   };
+
+  const finalizarCompra = () => {
+    alert('Pago procesao con exito');
+
+    setCart([]);
+    setDescuento(0)
+    Navigate('/compraAhora');
+  }
 
   return (
       <main className='container'>
         <h1 className='title__principal'>Productos</h1>
         <Routes>
           <Route path='/' element={ <ProductList products={products} addToCart={addToCart} /> } />
-          <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} /> } />
+          <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
           <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
-          <Route path='/compraAhora' element={<CompraAhora descuento={descuento} totalFinal={totalFinal} finalizarCompra={finalizarCompra}  /> } />
+          <Route path='/compraAhora' element={<CompraAhora descuento={descuento} totalFinal={totalFinal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
         </Routes>
         <IrToCart cart={cart} totalItems={totalItems} totalFinal={totalFinal} />
       </main>
