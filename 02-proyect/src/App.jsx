@@ -13,8 +13,10 @@ import { CompraAhora } from './Componente/CompraAhora';
 
 function App() {
 
+  // para navegara a garantia 
   const navigate = useNavigate();
 
+  //para guarada los producto 
   const [products, setProducts] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -93,6 +95,7 @@ useEffect(() => {
     }
   }
 
+
           //se calcula total 
   const subTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
@@ -110,6 +113,7 @@ useEffect(() => {
     setCart(newCart);
   }
 
+
   const menosProduct = (id) => {
     // buscamos el producto en el carrito
     const itemInCart = cart.find(item => item.id === id);
@@ -123,8 +127,8 @@ useEffect(() => {
     }
   };
 
-    // condiciones de aplicacion del cupon
 
+    // condiciones de aplicacion del cupon
     useEffect(()=> {
       if (subTotal < 100 && descuento > 0) {
         setDescuento(0);
@@ -135,23 +139,32 @@ useEffect(() => {
   
     const [nombreCuponActivo, setNombreCuponActivo] = useState('');
 
+
+    //verificacion de aplica o no la garantia en los productos solo arriba de 100
     const irAGarantia = () => {
       if (cart.length === 0) return alert('Carrito esta vacio');
 
+      const tieneGarantia = cart.some(product => product.price > 100);
+
+      if (tieneGarantia) {
+        navigate('/compraAhora', { state: { misProductos: cart }});
+      } else {
+        finalizarCompra();
+      }
+  };
+
+
+  const finalizarCompra = () => {
+    //validacion de los cupones
     if (nombreCuponActivo) {
-      console.log('guardar cupon', nombreCuponActivo);
       setUsado([...usado, nombreCuponActivo]);
     }
 
-    navigate('./compraAhora' , {state: {misProductos: cart} });
-  };
-
-  const finalizarCompra = () => {
     alert('Pago procesao con exito');
 
     setCart([]);
     setDescuento(0)
-    Navigate('/compraAhora');
+    Navigate('/');
   }
 
   return (

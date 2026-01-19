@@ -9,17 +9,21 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
 
     const { misProductos } = location.state || { misProductos: []};
 
+    
+    // validacion de producto que aplica garantia y cupones
     useEffect(() => {
         if (totalFinal < 200) {
-            setCostoEnvio(80)
+            setCostoEnvio(80);
+        } else {
+            setCostoEnvio(0);
         }
-    },[totalFinal]);
+    }, [totalFinal]);
 
-
+    
     return (
     <div className="container__garantia">
-        {misProductos.map((product) => {
-            return (
+        {misProductos.filter(product => product.price > 100).map((product) => {
+    return (
         <div key={product.id} className="garantia">
             <h2 className="title__garantia">Agrega una proteccion para este producto</h2>
             <div className="garantia__product">
