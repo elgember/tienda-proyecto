@@ -160,7 +160,7 @@ useEffect(() => {
       setUsado([...usado, nombreCuponActivo]);
     }
 
-    alert('Pago procesao con exito');
+    alert('Pago procesado con exito');
 
     setCart([]);
     setDescuento(0)
