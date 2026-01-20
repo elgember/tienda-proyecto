@@ -548,8 +548,7 @@ body {
 }
 
 
-/* section del garantia */
-
+/* section del garantia del producto */
 
 .container__garantia {
     display: flex;
@@ -561,7 +560,7 @@ body {
     background-color: #fff;
     border-radius: 4px;
     width: 600px;
-    
+    padding: 0 20px;
 }
 
 .garantia__product {
@@ -570,20 +569,62 @@ body {
 }
 
 .container__image {
-    border: 2px solid #07640b;
+    border: 3px solid #07b00f;
     border-radius: 50%;  
-    width: 30px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 }
 
+.proteccion__product {
+    padding-left: 15px;
+}
+
+.proteccion__para {
+    color: #808080;
+    font-size: 0.9rem;
+    font-weight: 100;
+}
+
+.proteccion__title {
+    font-weight: 200;
+}
 
 .image__garantia {
-    width: 20px;
-    height: 40px; 
+    width: 40px;
+    height: 60px; 
     object-fit: cover;
+}
+
+
+/* garantias extendidas */
+
+.opcion {
+    border: 1px solid #808080;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.garantia__meses {
+    display: flex;
+    flex-direction: column;
+}
+
+.garantia__precio {
+    font-weight: 100;
+    padding-left: 20px;
+}
+
+.garantia__descuento {
+    background-color: #b0f4b0;
+    border-radius: 5px;
+    padding: 5px;
+    color: #066806;
 }
 

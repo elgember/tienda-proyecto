@@ -50,24 +50,27 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
                     <img className="image__garantia" src={product.image} alt={product.title} />
                 </div>
                 <div className="proteccion__product">
-                    <h5>proteccion para:</h5>
-                    <p>{product.title}</p>
+                    <p className="proteccion__para">proteccion para:</p>
+                    <p className="proteccion__title">{product.title}</p>
                 </div>
             </div>
             <div className={`opcion ${selecciones[product.id] === 50 ? 'selecionada' : ''}`} onClick={() => seleccionarGarantia(product.id, 50)}>
                 <p>12 meses de Garantia extendida</p>
-                <span>$ 50</span>
+                <span className="garantia__precio">$ 50</span>
             </div>
-            <div className={`opcion ${selecciones[product.id] === (product.price * 0.1) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.1)}>
+            <div className={`opcion ${selecciones[product.id] === (product.price * 0.2) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.1)}>
                 <p>18 meses de Garantia extendida</p>
-                <div>
-                    <span>$ {(product.price * 0.1).toFixed(2)}</span>
-                    <span>10% OFF</span>
+                <div className="garantia__meses">
+                    <span className="garantia__precio">$ {(product.price * 0.2).toFixed(2)}</span>
+                    <span className="garantia__descuento">10% OFF</span>
                 </div>
             </div>
-            <div className={`opcion ${selecciones[product.id] === (product.price * 0.2) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.01)}>
+            <div className={`opcion ${selecciones[product.id] === (product.price * 0.1) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.01)}>
                 <p>24 meses de Garantia extendida</p>
-                <span>$ {(product.price * 0.2).toFixed(2)}</span>
+                <div className="garantia__meses">
+                    <span className="garantia__precio">$ {(product.price * 0.1).toFixed(2)}</span>
+                    <span className="garantia__descuento">10% OFF</span>
+                </div>
             </div>
         </div>
             )
