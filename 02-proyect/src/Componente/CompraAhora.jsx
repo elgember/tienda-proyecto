@@ -14,17 +14,25 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
     const [totalGarantia, setTotalGarantia] = useState(totalFinal);
 
     //Funcion para marcar la seleccion
-    const seleccionarGarantia = (productId, precio) => {
-        setSelecciones(prev => ({
-            ...prev,
-            [product.Id]: precio
-        }));
+    const seleccionarGarantia = (productId, precioExtra, tipoGarantia) => {
+        setSelecciones(prev => {
+            if (prev[productId]?.tipo === tipoGarantia) {
+                const copia = {...prev};
+                delete copia[productId];
+                return copia;
+            }
+            //si no, guardamos la nueva seleccion
+            return {
+                ...prev,
+                [productId]: { tipo: tipoGarantia, precio: parseFloat(precioExtra) }
+            };
+        });
     };
 
 
     //Recalcular el total cada vez que cambien las selecciones
     useEffect(() => {
-        const extraGarantias = Object.values(selecciones).reduce((acc, curr) => acc + curr, 0);
+        const extraGarantias = Object.values(selecciones).reduce((acc, g) => acc + g.precio, 0);
         setTotalGarantia(totalFinal + extraGarantias);
     }, [selecciones, totalFinal]);
     
@@ -54,18 +62,21 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
                     <p className="proteccion__title">{product.title}</p>
                 </div>
             </div>
-            <div className={`opcion ${selecciones[product.id] === 50 ? 'selecionada' : ''}`} onClick={() => seleccionarGarantia(product.id, 50)}>
+                                {/* Opcion de 12 meses garantia */}
+            <div className={`opcion ${selecciones[product.id]?.tipo === '12' ? 'active' : ''}`} onClick={() => seleccionarGarantia(product.id, '12')}>
                 <p>12 meses de Garantia extendida</p>
                 <span className="garantia__precio">$ 50</span>
             </div>
-            <div className={`opcion ${selecciones[product.id] === (product.price * 0.8) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.1)}>
+                                {/* Opcion de 18 Meses garantia */}
+            <div className={`opcion ${selecciones[product.id]?.tipo === '18' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, '18')}>
                 <p>18 meses de Garantia extendida</p>
                 <div className="garantia__meses">
                     <span className="garantia__precio">$ {(product.price * 0.8).toFixed(2)}</span>
                     <span className="garantia__descuento">20% OFF</span>
                 </div>
             </div>
-            <div className={`opcion ${selecciones[product.id] === (product.price * 0.9) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.01)}>
+                                {/* Opcion de 24 Meses garantia */}
+            <div className={`opcion ${selecciones[product.id]?.tipo === '24' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, '24')}>
                 <p>24 meses de Garantia extendida</p>
                 <div className="garantia__meses">
                     <span className="garantia__precio">$ {(product.price * 0.9).toFixed(2)}</span>

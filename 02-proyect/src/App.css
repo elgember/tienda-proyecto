@@ -614,7 +614,7 @@ body {
 
 /* border del cuandro selecion de garantia*/
 
-.opcion:active {
+.opcion.active {
     border: 2px solid #00f;
 }
 
