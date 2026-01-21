@@ -611,6 +611,13 @@ body {
     margin: 10px;
 }
 
+
+/* border del cuandro selecion de garantia*/
+
+.opcion:active {
+    border: 2px solid #00f;
+}
+
 .garantia__meses {
     display: flex;
     flex-direction: column;
@@ -628,3 +635,41 @@ body {
     color: #066806;
 }
 
+/* botones de no, aceptar garantia*/
+.btn__garantia {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    height: 120px;
+    text-align: center;
+}
+
+.garantia__aceptar {
+    border: none;
+    padding: 15px 60px;
+    margin: 20px 5px 0 5px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.no--garantia {
+    color: #47e;
+    background-color: #47e3;
+}
+
+.agregar--garantia {
+    color: #fff;
+    background-color: #47e;
+}
+
+/* aceptar la garantia estilo*/
+
+.condiciones__garantia {
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.terminos__condiciones {
+    text-decoration: none;
+}

@@ -58,17 +58,17 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
                 <p>12 meses de Garantia extendida</p>
                 <span className="garantia__precio">$ 50</span>
             </div>
-            <div className={`opcion ${selecciones[product.id] === (product.price * 0.2) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.1)}>
+            <div className={`opcion ${selecciones[product.id] === (product.price * 0.8) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.1)}>
                 <p>18 meses de Garantia extendida</p>
                 <div className="garantia__meses">
-                    <span className="garantia__precio">$ {(product.price * 0.2).toFixed(2)}</span>
-                    <span className="garantia__descuento">10% OFF</span>
+                    <span className="garantia__precio">$ {(product.price * 0.8).toFixed(2)}</span>
+                    <span className="garantia__descuento">20% OFF</span>
                 </div>
             </div>
-            <div className={`opcion ${selecciones[product.id] === (product.price * 0.1) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.01)}>
+            <div className={`opcion ${selecciones[product.id] === (product.price * 0.9) ? 'seleccionada' : ''}`} onClick={()=> seleccionarGarantia(product.id, product.price * 0.01)}>
                 <p>24 meses de Garantia extendida</p>
                 <div className="garantia__meses">
-                    <span className="garantia__precio">$ {(product.price * 0.1).toFixed(2)}</span>
+                    <span className="garantia__precio">$ {(product.price * 0.9).toFixed(2)}</span>
                     <span className="garantia__descuento">10% OFF</span>
                 </div>
             </div>
@@ -76,8 +76,11 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
             )
 })}
         <div className="btn__garantia">
-            <button className="no__garantia">No, gracias</button>
-            <button className="agregar__garantia">Agregar</button>
+            <button className="garantia__aceptar no--garantia">No, gracias</button>
+            <button className="garantia__aceptar agregar--garantia">Agregar</button>
+            <div className="condiciones__garantia">
+                <p>Al agregar aceptas el envio del certificado de la garantia y los <a className="terminos__condiciones" href="#">Terminos de contratacion, cobertura, exclusiones.</a></p>
+            </div>
         </div>
     </div>
     )
