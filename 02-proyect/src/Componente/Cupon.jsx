@@ -83,7 +83,9 @@ export const Cupon = ({ setDescuento, eliminarCupon, usado, setUsado, setNombreC
             </div>
             <div className="acordion__content" ref={contentRet} style={{maxHeight: mover ? `${contentRet.current?.scrollHeight}px` : '0px'}}>
                 <div className="inner__padding">
-                    <input type="text" className="text__cupon" ref={inputRet} value={codigo} onChange={(e) => setCodigo(e.target.value)}/>
+                    <input type="text" className="text__cupon" ref={inputRet} value={codigo}
+                     onChange={(e) => setCodigo(e.target.value)}
+                      onKeyDown={(e)=> { if(e.key === 'Enter') { aplicarCupon(); }}}/>
                     <button className="btn__cupon" onClick={aplicarCupon}>Agregar cupon</button>
                     {mensaje && <p>{mensaje}</p>}
                 </div>

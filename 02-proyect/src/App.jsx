@@ -169,9 +169,10 @@ useEffect(() => {
 
   return (
       <main className='container'>
-        <h1 className='title__principal'>Productos</h1>
+        
         <Routes>
-          <Route path='/' element={ <ProductList products={products} addToCart={addToCart} /> } />
+          
+          <Route path='/' element={ <> <h1 className='title__principal'>Productos</h1> <ProductList products={products} addToCart={addToCart} /> </> } />
           <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
