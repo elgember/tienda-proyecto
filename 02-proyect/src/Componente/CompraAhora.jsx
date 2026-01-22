@@ -51,6 +51,10 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
     <div className="container__garantia">
         <h2 className="title__garantia">Agrega una proteccion para este producto</h2>
         {misProductos.filter(product => product.price > 100).map((product) => {
+            // se calculan los precios 
+            const precio18 = (product.price * 0.8);
+            const precio24 = (product.price * 0.9);
+
     return (
         <div key={product.id} className="garantia">
             <div className="garantia__product">
@@ -63,23 +67,23 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
                 </div>
             </div>
                                 {/* Opcion de 12 meses garantia */}
-            <div className={`opcion ${selecciones[product.id]?.tipo === '12' ? 'active' : ''}`} onClick={() => seleccionarGarantia(product.id, '12')}>
+            <div className={`opcion ${selecciones[product.id]?.tipo === '12' ? 'active' : ''}`} onClick={() => seleccionarGarantia(product.id, 50, '12')}>
                 <p>12 meses de Garantia extendida</p>
                 <span className="garantia__precio">$ 50</span>
             </div>
                                 {/* Opcion de 18 Meses garantia */}
-            <div className={`opcion ${selecciones[product.id]?.tipo === '18' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, '18')}>
+            <div className={`opcion ${selecciones[product.id]?.tipo === '18' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, precio18, '18')}>
                 <p>18 meses de Garantia extendida</p>
                 <div className="garantia__meses">
-                    <span className="garantia__precio">$ {(product.price * 0.8).toFixed(2)}</span>
+                    <span className="garantia__precio">$ {precio18.toFixed(2)}</span>
                     <span className="garantia__descuento">20% OFF</span>
                 </div>
             </div>
                                 {/* Opcion de 24 Meses garantia */}
-            <div className={`opcion ${selecciones[product.id]?.tipo === '24' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, '24')}>
+            <div className={`opcion ${selecciones[product.id]?.tipo === '24' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, precio24, '24')}>
                 <p>24 meses de Garantia extendida</p>
                 <div className="garantia__meses">
-                    <span className="garantia__precio">$ {(product.price * 0.9).toFixed(2)}</span>
+                    <span className="garantia__precio">$ {precio24.toFixed(2)}</span>
                     <span className="garantia__descuento">10% OFF</span>
                 </div>
             </div>
@@ -87,8 +91,8 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
             )
 })}
         <div className="btn__garantia">
-            <button className="garantia__aceptar no--garantia">No, gracias</button>
-            <button className="garantia__aceptar agregar--garantia">Agregar</button>
+            <button className="garantia__aceptar no--garantia" onClick={()=> finalizarCompra(totalFinal)}>No, gracias</button>
+            <button className="garantia__aceptar agregar--garantia" onClick={()=> finalizarCompra(totalGarantia)}>Agregar</button>
             <div className="condiciones__garantia">
                 <p>Al agregar aceptas el envio del certificado de la garantia y los <a className="terminos__condiciones" href="#">Terminos de contratacion, cobertura, exclusiones.</a></p>
             </div>

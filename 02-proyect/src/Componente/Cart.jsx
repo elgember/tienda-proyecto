@@ -8,19 +8,20 @@ export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems
 
     return (
     <div className="container__cart">
-        {cart.length === 0 ? (
+            {cart.length === 0 ? (
             <div>
                 <p className="p__1"><Icon icon="raphael:cart" width="42" height="42" /><strong>El Carrito Esta Vacio</strong></p>
                 <p className="p__2">Articulos que te interesaron</p>
             </div>
         ) : (
-            <div className="cart__principal">
+             <div className="producto__selecionado">
+                <div className="cart__principal">
                 <h2 className="cart__title">Carrito</h2>
                 <div>
                     <BarraEnvio totalFinal={totalFinal}/>
                 </div>
-                <ul className="list__cart">
                     {cart.map(item => (
+                        <ul className="list__cart">
                         <li key={item.id}>
                             <div className="div__cart">
                                 <div className="div__product">
@@ -35,8 +36,9 @@ export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems
                                 </div>    
                             </div>
                         </li>
+                        </ul>
                     ))}
-                </ul>
+                </div>
                 <div className="precio__total">
                 <div>
                     <div>

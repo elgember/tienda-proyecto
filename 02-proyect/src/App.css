@@ -9,7 +9,7 @@ body {
 
 .title__principal {
     padding: 20px 40px;
-    margin: 0 0 25px 0;
+    margin: 0;
     background-color: #fff;
     z-index: 10;
     border-radius: 7px;
@@ -114,17 +114,26 @@ body {
                                 /* seccion del carrito */
 
 .container__cart {
-    background-color: #fff;
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     position: relative;
     overflow: hidden;
-    transition: all 0.5s ease-in-out;
-    box-shadow: 0 10px 20px #0001;
-    padding-top: 10px;
+    transition: all 0.5s ease-in-out;  
 }
+
+.producto__selecionado {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.cart__principal {
+    background-color: #fff;
+    padding: 0 10px;
+} 
 
 .cart__title {
     text-align: center;
@@ -214,12 +223,27 @@ body {
     text-align: center;
 }
 
-@media screen and (min-width:600px) {
-    .container__cart {
-        width: 80%;
-        border-radius: 10px;
+
+@media screen and (min-width:800px) {
+    .producto__selecionado {
+        flex-direction: row;
+        align-items: flex-start;
+        margin-top: 10px;
+    }
+
+    .cart__principal {
+        flex: 2;
+        border-radius: 8px;
+    }
+
+    .precio__total {
+        flex: 1;
+        box-shadow: 0 10px 20px #0001;
+        border-radius: 8px;
+        
     }
 }
+
 
 .p__1 {
     padding: 10px;
@@ -230,7 +254,8 @@ body {
 }
 
 .precio__total {
-    padding: 10px;
+    padding: 0 20px;
+    background-color: #fff;
 }
 
 .envio {
@@ -246,7 +271,6 @@ body {
 .cupon {
     color: #00f;
     cursor: pointer;
-    
 }
 
 .total {
@@ -615,8 +639,10 @@ body {
 /* border del cuandro selecion de garantia*/
 
 .opcion.active {
-    border: 2px solid #00f;
+    border: 2px solid #48e;
 }
+
+/* garantias de meses */
 
 .garantia__meses {
     display: flex;
