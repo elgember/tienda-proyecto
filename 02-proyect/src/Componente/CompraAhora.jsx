@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom";
 
-export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, irAGarantia }) => {
+export const CompraAhora = ({ totalFinal, product, irDireccion, setLoading, loading }) => {
 
     const location = useLocation();
 
@@ -45,6 +45,15 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
             setCostoEnvio(0);
         }
     }, [totalFinal]);
+
+
+    const cargarDireccion = (total)=> {
+        setLoading(true); // activar la animacion
+
+        setTimeout(() => {
+            irDireccion(total)
+        },1500);
+    };
 
     
     return (
@@ -91,8 +100,8 @@ export const CompraAhora = ({descuento, totalFinal, finalizarCompra, product, ir
             )
 })}
         <div className="btn__garantia">
-            <button className="garantia__aceptar no--garantia" onClick={()=> finalizarCompra(totalFinal)}>No, gracias</button>
-            <button className="garantia__aceptar agregar--garantia" onClick={()=> finalizarCompra(totalGarantia)}>Agregar</button>
+            <button className={`garantia__aceptar no--garantia ${loading ? 'btn__loading' : '' }`} onClick={()=> irDireccion(totalFinal)} disabled={loading} >{loading ? <div className="animation"></div> : `No, Gracias`}</button>
+            <button className={`garantia__aceptar agregar--garantia ${loading ? 'btn__loading' : '' } `} onClick={()=> cargarDireccion(totalGarantia)} disabled={loading} >{loading ? <div className="animation"></div> : `agregar` }</button>
             <div className="condiciones__garantia">
                 <p>Al agregar aceptas el envio del certificado de la garantia y los <a className="terminos__condiciones" href="#">Terminos de contratacion, cobertura, exclusiones.</a></p>
             </div>

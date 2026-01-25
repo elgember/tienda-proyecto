@@ -20,8 +20,8 @@ export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems
                 <div>
                     <BarraEnvio totalFinal={totalFinal}/>
                 </div>
+                <ul className="list__cart">
                     {cart.map(item => (
-                        <ul className="list__cart">
                         <li key={item.id}>
                             <div className="div__cart">
                                 <div className="div__product">
@@ -36,8 +36,8 @@ export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems
                                 </div>    
                             </div>
                         </li>
-                        </ul>
-                    ))}
+                        ))}
+                    </ul>
                 </div>
                 <div className="precio__total">
                 <div>

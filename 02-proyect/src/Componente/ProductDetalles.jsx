@@ -1,10 +1,9 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
+import { Btn__volver } from "./page/btn__volver";
 
 export const ProductDetalles = ({ products, addToCart, setLoading}) => {
 
     const { id } = useParams();  // captura el id de la URL
-    const navigate = useNavigate();  //para volver atras
 
     //Buscamos el producto especifico
     const product = products.find(item => item.id === parseInt(id));
@@ -13,9 +12,7 @@ export const ProductDetalles = ({ products, addToCart, setLoading}) => {
 
     return (
     <div className="detalle__contenedor">
-        <button className="btn__volver" onClick={()=> navigate(-1)}>
-            <Icon icon="ion:arrow-back" /> Volver
-        </button>
+        <Btn__volver/>
         <div className="detalle__titulo">
                 <h2>{product.title}</h2>
         </div>

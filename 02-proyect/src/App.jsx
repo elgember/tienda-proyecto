@@ -9,7 +9,7 @@ import { BarraEnvio } from './Componente/BarraEnvio';
 import { ProductDetalles } from './Componente/ProductDetalles';
 import { HistorialCupon } from './Componente/HistorialCupon';
 import { CompraAhora } from './Componente/CompraAhora';
-
+import { Direccion } from './Componente/Direccion';
 
 function App() {
 
@@ -153,6 +153,10 @@ useEffect(() => {
       }
   };
 
+  const irDireccion = (totaCalculo) => {
+    navigate('/direccion', { state: { totalApagar: totaCalculo }});
+  }
+
 
   const finalizarCompra = () => {
     //validacion de los cupones
@@ -178,7 +182,8 @@ useEffect(() => {
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
           <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
-          <Route path='/compraAhora' element={<CompraAhora descuento={descuento} totalFinal={totalFinal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
+          <Route path='/compraAhora' element={<CompraAhora totalFinal={totalFinal} irDireccion={irDireccion} loading={loading} setLoading={setLoading} /> } />
+          <Route path='/direccion' element={<Direccion setLoading={setLoading} loading={loading} /> } />
         </Routes>
         <IrToCart cart={cart} totalItems={totalItems} totalFinal={totalFinal} />
       </main>
