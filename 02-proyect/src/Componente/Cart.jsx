@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { IrCupon } from "./page/IrCupon";
 import { BarraEnvio } from "./BarraEnvio";
+import { Btn__volver } from "./page/btn__volver";
 
 export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems, totalFinal, ahorro, descuento, subTotal, finalizarCompra, irAGarantia }) => {
 
@@ -8,10 +9,13 @@ export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems
 
     return (
     <div className="container__cart">
+        <div>
+            <Btn__volver/>
+        </div>
             {cart.length === 0 ? (
-            <div>
-                <p className="p__1"><Icon icon="raphael:cart" width="42" height="42" /><strong>El Carrito Esta Vacio</strong></p>
-                <p className="p__2">Articulos que te interesaron</p>
+            <div className="cart__vacio">
+                <p className="vacio__icon"><Icon icon="raphael:cart" width="42" height="42" /><strong>El Carrito Esta Vacio</strong></p>
+                <p className="vacio__icon">Articulos que te interesaron</p>
             </div>
         ) : (
              <div className="producto__selecionado">

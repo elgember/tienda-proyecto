@@ -233,12 +233,9 @@ body {
     text-align: center;
 }
 
-.p__1 {
+.vacio__icon {
     padding: 10px;
-}
-
-.p__2 {
-    padding: 10px;
+    text-align: center;
 }
 
 /* barra del los precios, decuentos, total a pagar */
@@ -525,7 +522,8 @@ body {
 }
 
 
-        /* detalles del producto */
+            /*  PRODUCT-DETALLE */
+/* detalles del producto */
 
 .detalle__contenedor {
     background-color: #fff;
@@ -546,7 +544,7 @@ body {
 }
 
 .detalle__titulo {
-    padding: 0 20px;
+    padding: 30px 10px;
     margin: 5px 0;
     display: flex;
     justify-content: center;
@@ -585,13 +583,19 @@ body {
                 /*  COMPRA-AHORA  */
 /* section del garantia del producto*/
 
-.container__garantia {
+.garantia {
     display: flex;
     flex-direction: column;
     align-items: center;
+    opacity: 0;
+    animation: entradaSuave 0.6s forwards;
 }
 
-.garantia {
+.title__garantia {
+    padding: 10px 0;  
+}
+
+.garantia__tipo {
     background-color: #fff;
     border-radius: 4px;
     width: 600px;
@@ -638,7 +642,7 @@ body {
 /* ajuste de pantalla mediana*/
 
 @media screen and (max-width: 700px) {
-    .garantia {
+    .garantia__tipo {
         width: 70%;
     }
 }
@@ -655,7 +659,7 @@ body {
     margin: 10px;
 }
 
-.garantia {
+.garantia__tipo {
     animation: fadeInSlide 0.5s ease forwards;
     opacity: 0;
 }
@@ -756,6 +760,29 @@ body {
     background-color: #1e7e34;
 }
 
+/* animacion de entrada a la pagina */
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+    transform: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+}
+
+@keyframes entradaSuave {
+    from {
+        opacity: 0; transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
                 /*  BTN-VOLVER  */
 /*ajustes del boton volver de las paginas*/
@@ -769,7 +796,7 @@ body {
     top: 1.2rem;
     left: 10px;
     border: none;
-    background-color: #fff;
+    background-color: transparent;
     font-size: 30px;
 }
 

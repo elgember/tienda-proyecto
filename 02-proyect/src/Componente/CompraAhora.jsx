@@ -7,6 +7,9 @@ export const CompraAhora = ({ totalFinal, product, irDireccion, setLoading, load
 
     const [costoEnvio, setCostoEnvio] = useState(0);
 
+    //estado salida de animacion
+    const [desvanecer, setDesvanecer] = useState(false);
+
     const { misProductos } = location.state || { misProductos: []};
 
     //estado para guardar la selecion { productoId: precioGarantia }
@@ -46,26 +49,40 @@ export const CompraAhora = ({ totalFinal, product, irDireccion, setLoading, load
         }
     }, [totalFinal]);
 
+    useEffect(()=> {
+        return ()=> {
+            setLoading(false)
+        };
+    },[]);
+
 
     const cargarDireccion = (total)=> {
+        if (loading) return;
+
         setLoading(true); // activar la animacion
 
         setTimeout(() => {
+            //iniciamo el desvanecimiento
+            setDesvanecer(true);
+        },500)
+
+        setTimeout(() => {
             irDireccion(total)
-        },1500);
+        },1000);
     };
 
     
     return (
     <div className="container__garantia">
-        <h2 className="title__garantia">Agrega una proteccion para este producto</h2>
+        <div className={`garantia  ${desvanecer ? 'fade-out' : 'fade-in'}`}>
+            <h2 className="title__garantia">Agrega una proteccion para este producto</h2>
         {misProductos.filter(product => product.price > 100).map((product) => {
             // se calculan los precios 
             const precio18 = (product.price * 0.8);
             const precio24 = (product.price * 0.9);
 
     return (
-        <div key={product.id} className="garantia">
+        <div key={product.id} className="garantia__tipo">
             <div className="garantia__product">
                 <div className="container__image">
                     <img className="image__garantia" src={product.image} alt={product.title} />
@@ -99,8 +116,9 @@ export const CompraAhora = ({ totalFinal, product, irDireccion, setLoading, load
         </div>
             )
 })}
+        </div>
         <div className="btn__garantia">
-            <button className={`garantia__aceptar no--garantia ${loading ? 'btn__loading' : '' }`} onClick={()=> irDireccion(totalFinal)} disabled={loading} >{loading ? <div className="animation"></div> : `No, Gracias`}</button>
+            <button className={`garantia__aceptar no--garantia ${loading ? 'btn__loading' : '' }`} onClick={()=> cargarDireccion(totalFinal)} disabled={loading} >{loading ? <div className="animation"></div> : `No, Gracias`}</button>
             <button className={`garantia__aceptar agregar--garantia ${loading ? 'btn__loading' : '' } `} onClick={()=> cargarDireccion(totalGarantia)} disabled={loading} >{loading ? <div className="animation"></div> : `agregar` }</button>
             <div className="condiciones__garantia">
                 <p>Al agregar aceptas el envio del certificado de la garantia y los <a className="terminos__condiciones" href="#">Terminos de contratacion, cobertura, exclusiones.</a></p>

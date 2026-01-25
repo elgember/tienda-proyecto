@@ -19,7 +19,7 @@ function App() {
   //para guarada los producto 
   const [products, setProducts] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
    const [cerra, setCerrar] = useState(true);
 
