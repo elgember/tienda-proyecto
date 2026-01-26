@@ -18,13 +18,13 @@ export const ProductDetalles = ({ products, addToCart, setLoading}) => {
         </div>
         <div className="detalle__contenido">
             <img className="detalle__imagen" src={product.image} alt={product.title} />
-            <div className="detalle__info">
+        </div>
+        <div className="detalle__info">
                 <p className="detalle__category">{product.category}</p>
                 <p className="detalle__description">{product.description}</p>
                 <p className="detalle__price">${product.price}</p>
                 <button className="btn__add" onClick={()=> addToCart(product)}>Agregar al carrito</button>
             </div>
-        </div>
     </div>
     )
 }

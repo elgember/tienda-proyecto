@@ -526,28 +526,31 @@ body {
 /* detalles del producto */
 
 .detalle__contenedor {
-    background-color: #fff;
     border-radius: 7px;
-    margin-top: -15px;
 }
 
 .detalle__contenido {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    gap: 40px;
-}
-
-.detalle__info {
-    max-width: 600px;
+    gap: 20px;
 }
 
 .detalle__titulo {
-    padding: 30px 10px;
+    background-color: #fff;
+    padding: 35px 10px;
     margin: 5px 0;
     display: flex;
     justify-content: center;
+    border-radius: 5px;
+}
+
+
+.detalle__info {  
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 
