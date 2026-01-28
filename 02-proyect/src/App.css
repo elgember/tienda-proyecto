@@ -824,12 +824,56 @@ body {
                 /*  DIRECCION   */
 /* diseño del registro de direccion de envio del producto*/
 
+.section__envio {
+    background-color: #fff;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    position: relative;
+}
+
+.envio__title {
+    padding: 10px;
+}
+
 .envio__informacion {
     display: grid;
-    grid-template-columns: 1fr, 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
+    max-width: 600px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.envio__apellido {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .envio__nombre {
-   grid-column: span 2;
+    grid-column: span 2;
+}
+
+.nombre {
+    width: 435px;
+    padding: 5px;
+}
+
+.apellido {
+    width: 200px;
+    padding: 5px;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.volver {
+    position: absolute;
+    left: 0;
 }
