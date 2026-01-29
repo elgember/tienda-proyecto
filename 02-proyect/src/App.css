@@ -860,11 +860,13 @@ body {
 .nombre {
     width: 435px;
     padding: 5px;
+    margin-top: 5px;
 }
 
 .apellido {
     width: 200px;
     padding: 5px;
+    margin-top: 5px;
 }
 
 .label {
@@ -876,4 +878,30 @@ body {
 .volver {
     position: absolute;
     left: 0;
+}
+
+/* diseño del boton de guardar */
+.guardar__direccion {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* animacion del boton estando vacio*/
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5%); }
+    50% { transform: translateX(5%); }
+    75% { transform: translateX(-5%); }
+    100% { transform: translateX(0); }
+}   
+
+.shake-animation {
+    animation: shake 0.4s ease-in-out;
+    border: 2px solid #ff4d4d !important;
+}
+
+.btn__desabilitado {
+    background-color: #ccc !important;
+    cursor: not-allowed;
 }

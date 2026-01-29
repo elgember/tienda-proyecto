@@ -159,10 +159,6 @@ useEffect(() => {
     navigate('/direccion', { state: { totalApagar: totaCalculo }});
   }
 
-  const irFinalizarCompra = (totaCalculo) => {
-    navigate('/finalizarCompra', { state: {totalApagar: totaCalculo, datos: datosCliente }})
-  }
-
 
   const finalizarCompra = () => {
     //validacion de los cupones
@@ -179,9 +175,7 @@ useEffect(() => {
 
   return (
       <main className='container'>
-        
         <Routes>
-          
           <Route path='/' element={ <> <h1 className='title__principal'>Productos</h1> <ProductList products={products} addToCart={addToCart} /> </> } />
           <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
@@ -189,7 +183,7 @@ useEffect(() => {
           <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
           <Route path='/compraAhora' element={<CompraAhora totalFinal={totalFinal} irDireccion={irDireccion} loading={loading} setLoading={setLoading} /> } />
-          <Route path='/direccion' element={<Direccion setLoading={setLoading} loading={loading} irFinalizarCompra={irFinalizarCompra} /> } />
+          <Route path='/direccion' element={<Direccion setLoading={setLoading} loading={loading} totalFinal={totalFinal}  /> } />
           <Route path='/finalizarCompra' element={<FinalizarCompra /> } />
         </Routes>
         <IrToCart cart={cart} totalItems={totalItems} totalFinal={totalFinal} />
