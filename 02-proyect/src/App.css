@@ -905,3 +905,19 @@ body {
     background-color: #ccc !important;
     cursor: not-allowed;
 }
+
+
+        /* FINALIZAR COMPRA */
+
+/* estilos de la infomacion del usuario */
+
+
+.container__informacion {
+    border: 2px solid #000;
+    margin: 20px;
+    padding: 10px;
+}
+
+.title__informacion {
+    text-align: center;
+}

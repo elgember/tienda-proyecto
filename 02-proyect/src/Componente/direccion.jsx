@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Btn__volver } from "./page/btn__volver"
 import { useNavigate } from "react-router-dom";
 
-export const Direccion = ({ loading, setLoading, totalFinal }) => {
+export const Direccion = ({ loading, setLoading, totalApagar }) => {
 
     //inicia el look aqui en la raiz del componente
     const navigate = useNavigate();
@@ -10,10 +10,15 @@ export const Direccion = ({ loading, setLoading, totalFinal }) => {
     //estado de la animacion sacudida del boton estando vacion los input
     const [shake, setShake] = useState(false);
 
+    //valores de vacios de informacion del usuario
+    const datosVacio = { 
+        name: '', firstName: '', lastName: '', email: '', direccion: '', telefono: '' 
+    }
+
      //estado compartido para el formulario y guardado 
     const [datosCliente, setDatosCliente] = useState(() => {
         const guardado = localStorage.getItem('datos__confirmados');
-        return guardado ? JSON.parse(guardado) : { name: '', firstName: '', lastName: '', email: '', direccion: '', telefono: '' };
+        return guardado ? JSON.parse(guardado) : datosVacio;
     });
 
     //guaradar automaticamente cuando el usuario escribe
@@ -35,7 +40,7 @@ export const Direccion = ({ loading, setLoading, totalFinal }) => {
         datosCliente.direccion.trim() !== '';
 
 
-    const cargarCompraFinal = (totaCalculo) => {
+    const cargarCompraFinal = () => {
         //cuando el usuario intente guardar estando vacio los input 
         if (!formularioCompleto) {
             setShake(true);
@@ -50,19 +55,15 @@ export const Direccion = ({ loading, setLoading, totalFinal }) => {
 
         setTimeout(() => {
             setLoading(false);
-            // devaneceder
-            setTimeout(() => {
-                setLoading(false);
-
                 //navega a la siguente pagina con los datos guardados
                 navigate('/finalizarCompra', {
-                    state: { Cliente: datosCliente,
-                            totalFinal: totalApagar,
-                    }
+                    state: { cliente: datosCliente,
+                            totalApagar: totalApagar 
+                        }
                 });
-            });
+                setDatosCliente(datosVacio);     
         }, 1000);
-    } 
+    };
 
     return (
     <section className="section__envio">
@@ -79,7 +80,7 @@ export const Direccion = ({ loading, setLoading, totalFinal }) => {
                 </label>
             </div>
             <div className="envio__apellido">
-                <label htmlFor="firtName" className="label">Primer Apellido
+                <label htmlFor="firstName" className="label">Primer Apellido
                     <input className="apellido" value={datosCliente.firstName} onChange={datoNombre} type="text" name="firstName" id="firtNombre" placeholder="Primer Apellido" />
                 </label>
             </div>
@@ -89,13 +90,18 @@ export const Direccion = ({ loading, setLoading, totalFinal }) => {
                 </label>
             </div>
         </div>
-        <div className="contenedor__direccion">
+        <div className="container__direccion">
             <label htmlFor="direccion">Direccion
                 <input className="envio__direccion" type="text" value={datosCliente.direccion} onChange={datoNombre} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
             </label>
         </div>
-        <div className="contanedor__boton">
-            <button className={`guardar__direccion ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={(() => cargarCompraFinal(totalFinal))} >{loading ? 'cargando...' : 'Guardar'}</button>
+        <div className="container__numero">
+                <label htmlFor="num">Telefono
+                    <input type="number" name="telefono" value={datosCliente.telefono} onChange={datoNombre} id="num" placeholder="Numero de telefono" />
+                </label>
+        </div>
+        <div className="container__boton">
+            <button className={`guardar__direccion ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={(() => cargarCompraFinal(totalApagar))} >{loading ? 'cargando...' : 'Guardar'}</button>
         </div>
     </section>
     )

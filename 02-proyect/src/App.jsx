@@ -183,8 +183,8 @@ useEffect(() => {
           <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
           <Route path='/compraAhora' element={<CompraAhora totalFinal={totalFinal} irDireccion={irDireccion} loading={loading} setLoading={setLoading} /> } />
-          <Route path='/direccion' element={<Direccion setLoading={setLoading} loading={loading} totalFinal={totalFinal}  /> } />
-          <Route path='/finalizarCompra' element={<FinalizarCompra /> } />
+          <Route path='/direccion' element={<Direccion setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
+          <Route path='/finalizarCompra' element={<FinalizarCompra  finalizarCompra={finalizarCompra} totalFinal={totalFinal} /> } />
         </Routes>
         <IrToCart cart={cart} totalItems={totalItems} totalFinal={totalFinal} />
       </main>
