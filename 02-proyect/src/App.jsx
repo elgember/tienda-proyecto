@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { ProductList } from './Componente/ProductList';
 import { IrToCart } from './Componente/page/IrToCart';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Cart } from './Componente/Cart';
 import { Cupon } from './Componente/Cupon';
 import { BarraEnvio } from './Componente/BarraEnvio';
@@ -11,6 +11,7 @@ import { HistorialCupon } from './Componente/HistorialCupon';
 import { CompraAhora } from './Componente/CompraAhora';
 import { Direccion } from './Componente/Direccion';
 import { FinalizarCompra } from './Componente/FinalizarCompra';
+import { PagoExito } from './Componente/PagoExito';
 
 function App() {
 
@@ -21,9 +22,12 @@ function App() {
   const [products, setProducts] = useState([]);
 
   //estado cargando al entrar paginas 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(null);
 
    const [cerra, setCerrar] = useState(true);
+
+  // cupones activos
+  const [nombreCuponActivo, setNombreCuponActivo] = useState('');
 
     // estado de lectura de memoria
   const [cart, setCart] = useState(() => {
@@ -58,13 +62,15 @@ useEffect(() => {
   localStorage.setItem('cupones_usados', JSON.stringify(usado));
 },[usado]);
 
-  const eliminarCupon = () => {
-            setDescuento(0);
-        }
+
+const eliminarCupon = () => {
+          setDescuento(0);
+      }
+
 
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
+      setLoading('cargando__inicio');
 
       try {
         const response = await fetch('https://fakestoreapi.com/products');
@@ -74,7 +80,7 @@ useEffect(() => {
       catch (error) {
         console.log('Hubo un error', error);
       }
-      setLoading(false);
+      setLoading(null);
     }
     fetchData();
   },[]);
@@ -139,7 +145,19 @@ useEffect(() => {
       }
     },[subTotal, descuento]);
   
-    const [nombreCuponActivo, setNombreCuponActivo] = useState('');
+
+    const finalizarCompra = () => {
+    //validacion de los cupones
+    if (nombreCuponActivo) {
+      setUsado([...usado, nombreCuponActivo]);
+    }
+
+    alert('Pago procesado con exito');
+
+    setCart([]);
+    setDescuento(0)
+    navigate('/');
+  }
 
 
     //verificacion de aplica o no la garantia en los productos solo arriba de 100
@@ -151,27 +169,25 @@ useEffect(() => {
       if (tieneGarantia) {
         navigate('/compraAhora', { state: { misProductos: cart }});
       } else {
-        finalizarCompra();
+        navigate('/direccion', { state: { misProductos: cart }});
       }
   };
+
+
+  const garantia = () => {
+    if(tieneGarantia) {
+      navigate('/compraAhora', { state: { misProductos: cart }});
+    } else {
+      finalizarCompra();
+    }
+  }
+
 
   const irDireccion = (totaCalculo) => {
     navigate('/direccion', { state: { totalApagar: totaCalculo }});
   }
 
 
-  const finalizarCompra = () => {
-    //validacion de los cupones
-    if (nombreCuponActivo) {
-      setUsado([...usado, nombreCuponActivo]);
-    }
-
-    alert('Pago procesado con exito');
-
-    setCart([]);
-    setDescuento(0)
-    Navigate('/');
-  }
 
   return (
       <main className='container'>
@@ -180,11 +196,12 @@ useEffect(() => {
           <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
-          <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
+          <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} garantia={garantia} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
           <Route path='/compraAhora' element={<CompraAhora totalFinal={totalFinal} irDireccion={irDireccion} loading={loading} setLoading={setLoading} /> } />
           <Route path='/direccion' element={<Direccion setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
-          <Route path='/finalizarCompra' element={<FinalizarCompra  finalizarCompra={finalizarCompra} totalFinal={totalFinal} /> } />
+          <Route path='/finalizarCompra' element={<FinalizarCompra setCart={setCart} setDescuento={setDescuento} /> } />
+          <Route path='/pagoExito' element={<PagoExito /> } />
         </Routes>
         <IrToCart cart={cart} totalItems={totalItems} totalFinal={totalFinal} />
       </main>

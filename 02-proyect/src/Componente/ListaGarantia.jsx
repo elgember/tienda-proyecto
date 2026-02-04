@@ -48,15 +48,15 @@ export const ListaGarantia = ({ totalFinal, setLoading, loading, selecciones, se
 
     useEffect(()=> {
         return ()=> {
-            setLoading(false)
+            setLoading(null)
         };
     },[]);
 
 
-    const cargarDireccion = (totalCalculo)=> {
+    const cargarDireccion = (totalCalculo, nombreBoton)=> {
         if (loading) return;
 
-        setLoading(true); // activar la animacion
+        setLoading(nombreBoton); // activar la animacion
 
         setTimeout(() => {
             //iniciamo el desvanecimiento
@@ -115,8 +115,8 @@ export const ListaGarantia = ({ totalFinal, setLoading, loading, selecciones, se
 })}
         </div>
         <div className="btn__garantia">
-            <button className={`garantia__aceptar no--garantia ${loading ? 'btn__loading' : '' }`} onClick={()=> cargarDireccion(totalFinal)} disabled={loading} >{loading ? <div className="animation"></div> : `No, Gracias`}</button>
-            <button className={`garantia__aceptar agregar--garantia ${loading ? 'btn__loading' : '' } `} onClick={()=> cargarDireccion(totalGarantia)} disabled={loading} >{loading ? <div className="animation"></div> : `agregar` }</button>
+            <button className={`garantia__aceptar no--garantia ${loading === 'no__gracias' ? 'btn__loading' : '' }`} onClick={()=> cargarDireccion(totalFinal, 'no__gracias')} disabled={loading !== null} > {loading === 'no__gracias' ? <div className="animation"></div> : `No, Gracias`}</button>
+            <button className={`garantia__aceptar agregar--garantia ${loading === 'agregar' ? 'btn__loading' : '' } `} onClick={()=> cargarDireccion(totalGarantia, 'agregar')} disabled={loading !== null} >{loading === 'agregar' ? <div className="animation"></div> : `agregar` }</button>
             <div className="condiciones__garantia">
                 <p>Al agregar aceptas el envio del certificado de la garantia y los <a className="terminos__condiciones" href="#">Terminos de contratacion, cobertura, exclusiones.</a></p>
             </div>

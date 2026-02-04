@@ -1,14 +1,28 @@
 import { useEffect, useState } from "react"
 import { Btn__volver } from "./page/btn__volver"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Direccion = ({ loading, setLoading, totalApagar }) => {
 
     //inicia el look aqui en la raiz del componente
     const navigate = useNavigate();
 
+    const location = useLocation();
+
+    const [error, setError] = useState('');
+
     //estado de la animacion sacudida del boton estando vacion los input
     const [shake, setShake] = useState(false);
+
+    //Rastear que input tiene el foco
+    const [campoActivo, setCampoActivo] = useState('');
+
+    const sugerencias = {
+        name: ['Alexander', 'Luis', 'Pedro', 'Pepe', 'Gonzalo', 'Martin'], 
+        firstName: ['Perez', 'Gomez', 'Hernandez', 'Gonzalez', 'Lopez'],
+        lastName: ['Perez', 'Gomez', 'Hernandez', 'Gonzalez', 'Lopez']
+    };
+     
 
     //valores de vacios de informacion del usuario
     const datosVacio = { 
@@ -26,12 +40,32 @@ export const Direccion = ({ loading, setLoading, totalApagar }) => {
         localStorage.setItem('datos__confirmados', JSON.stringify(datosCliente));
     }, [datosCliente]);
 
+
     //para capturar el evento de escritura
     const datoNombre = (e) => {
         const { name, value } = e.target;
         setDatosCliente({ ...datosCliente, [name]: value });
     };
 
+    const obtenerSugerencia = (nombreCampo) => {
+        const valorActual = datosCliente[nombreCampo];
+        const opciones = sugerencias[nombreCampo];
+
+        if (!valorActual || !opciones) return
+
+        return opciones.find(s => 
+            s.toLowerCase().startsWith(valorActual.toLowerCase()) && s.toLowerCase() !== valorActual.toLowerCase()
+        );
+    }
+
+    const sugerenciaActual = obtenerSugerencia(campoActivo);
+
+    const enterKey = (e) => {
+        if (e.key === 'Enter' && sugerenciaActual) {
+            e.preventDefault(); // Evita que el formulario en envie accidentamente
+            setDatosCliente({ ...datosCliente, [campoActivo]: sugerenciaActual })
+        }
+    };
 
     const formularioCompleto = 
         datosCliente.name.trim() !== '' && 
@@ -39,6 +73,8 @@ export const Direccion = ({ loading, setLoading, totalApagar }) => {
         datosCliente.lastName.trim() !== '' &&
         datosCliente.direccion.trim() !== '';
 
+    
+    const precioParaPagar = location.state?.totalApagar || totalApagar;
 
     const cargarCompraFinal = () => {
         //cuando el usuario intente guardar estando vacio los input 
@@ -54,16 +90,16 @@ export const Direccion = ({ loading, setLoading, totalApagar }) => {
         localStorage.setItem('datosConfirmados', JSON.stringify(datosCliente));
 
         setTimeout(() => {
-            setLoading(false);
+            setLoading(null);
                 //navega a la siguente pagina con los datos guardados
                 navigate('/finalizarCompra', {
                     state: { cliente: datosCliente,
-                            totalApagar: totalApagar 
+                            totalApagar: precioParaPagar 
                         }
-                });
-                setDatosCliente(datosVacio);     
+                }); 
         }, 1000);
     };
+
 
     return (
     <section className="section__envio">
@@ -76,28 +112,31 @@ export const Direccion = ({ loading, setLoading, totalApagar }) => {
         <div className="envio__informacion">
             <div className="envio__nombre envio__apellido">
                 <label htmlFor="name" className="label">En caso de tener dos ambos nombres
-                    <input className="nombre" value={datosCliente.name} onChange={datoNombre} type="text" name="name" id="ed" placeholder="Name" />
+                    <input className="nombre" value={datosCliente.name} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('name')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="name" id="ed" placeholder="Name" />
+                    {campoActivo === 'name' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
             </div>
             <div className="envio__apellido">
                 <label htmlFor="firstName" className="label">Primer Apellido
-                    <input className="apellido" value={datosCliente.firstName} onChange={datoNombre} type="text" name="firstName" id="firtNombre" placeholder="Primer Apellido" />
+                    <input className="apellido" value={datosCliente.firstName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('firstName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="firstName" id="firtNombre" placeholder="Primer Apellido" />
+                    {campoActivo === 'firstName' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
             </div>
             <div className="envio__apellido">
                 <label htmlFor="lastName" className="label">Segundo Apellido
-                    <input className="apellido" value={datosCliente.lastName} onChange={datoNombre} type="text" name="lastName" id="lastNombre" placeholder="Segundo Apellido" />
+                    <input className="apellido" value={datosCliente.lastName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('lastName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="lastName" id="lastNombre" placeholder="Segundo Apellido" />
+                    {campoActivo === 'lastName' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
             </div>
         </div>
         <div className="container__direccion">
             <label htmlFor="direccion">Direccion
-                <input className="envio__direccion" type="text" value={datosCliente.direccion} onChange={datoNombre} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
+                <input className="envio__direccion" type="text" value={datosCliente.direccion} onChange={datoNombre} onKeyDown={enterKey} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
             </label>
         </div>
         <div className="container__numero">
                 <label htmlFor="num">Telefono
-                    <input type="number" name="telefono" value={datosCliente.telefono} onChange={datoNombre} id="num" placeholder="Numero de telefono" />
+                    <input type="number" name="telefono" value={datosCliente.telefono} onChange={datoNombre} onKeyDown={enterKey} id="num" placeholder="Numero de telefono" />
                 </label>
         </div>
         <div className="container__boton">

@@ -1,28 +1,46 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
-export const FinalizarCompra = ({ finalizarCompra, totalFinal }) => {
+export const FinalizarCompra = ({ setCart, setDescuento }) => {
+
+    //para recuperar la info
     const location = useLocation();
 
-    const { cliente, totalApagar } = location.state || { Cliente: {}, totalFinal: 0 }
+    const navigate = useNavigate();
+
+   // extraemos los datos del estado de navegacion
+   // agregamos un objeto vacio por defecto para evitar que 'cliente.name' rompa la app si location.state es null
+    const { cliente = {}, totalApagar = 0 } = location.state || {};
+
+    // al navegar de vuelta, el componente direccion leera el localStorage 
+    const manejarEdicion = () => {
+        navigate('/direccion');
+    }
+
+    const ConfirmarYPagar = () => {
+        localStorage.removeItem('datos__confirmados');
+        setCart([]);
+        setDescuento(0);
+        navigate('/pagoExito');
+    }
 
     return (
     <div className="section__info">
         <div className="container__informacion">
              <h3 className="title__informacion">Tu informacion</h3>
             <div className="usuario__informacion">
-                    <p><strong>Nombre: </strong>{cliente.name} {cliente.firstName} {cliente.lastName}</p>
+                <p><strong>Nombre: </strong>{cliente.name} {cliente.firstName} {cliente.lastName}</p>
                 <p><strong>Direccion: </strong>{cliente.direccion}</p>
-                <p><strong>Telefono:</strong>{cliente.telefono}</p>
+                <p><strong>Telefono: </strong>{cliente.telefono}</p>
             </div>
             <div className="editar__informacion">
-                <button>Editar</button>
+                <button onClick={manejarEdicion}>Editar</button>
             </div>
         </div>
         <div>
-            <strong>{totalFinal.toFixed(2)}</strong>
+            <strong>{totalApagar.toFixed(2)}</strong>
         </div>
         <div>
-            <button className="compra__pagar">Confirmar y pagar</button>
+            <button className="compra__pagar" onClick={ConfirmarYPagar}>Confirmar y pagar</button>
         </div>
     </div>
     )

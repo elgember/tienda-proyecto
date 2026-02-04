@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { Btn__volver } from "./page/btn__volver";
 
-export const ProductDetalles = ({ products, addToCart, setLoading}) => {
+export const ProductDetalles = ({ products, addToCart, setLoading, garantia }) => {
 
     const { id } = useParams();  // captura el id de la URL
 
@@ -24,6 +24,7 @@ export const ProductDetalles = ({ products, addToCart, setLoading}) => {
                 <p className="detalle__description">{product.description}</p>
                 <p className="detalle__price">${product.price}</p>
                 <button className="btn__add" onClick={()=> addToCart(product)}>Agregar al carrito</button>
+                <button className="btn__pagar" onClick={garantia}>Comprar</button>
             </div>
     </div>
     )

@@ -3,7 +3,7 @@ import { IrCupon } from "./page/IrCupon";
 import { BarraEnvio } from "./BarraEnvio";
 import { Btn__volver } from "./page/btn__volver";
 
-export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems, totalFinal, ahorro, descuento, subTotal, finalizarCompra, irAGarantia }) => {
+export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems, totalFinal, ahorro, descuento, subTotal, irAGarantia }) => {
 
     const metaEnvio = 200;
 
