@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { ProductList } from './Componente/ProductList';
-import { IrToCart } from './Componente/page/IrToCart';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { Cart } from './Componente/Cart';
 import { Cupon } from './Componente/Cupon';
 import { BarraEnvio } from './Componente/BarraEnvio';
@@ -12,6 +11,9 @@ import { CompraAhora } from './Componente/CompraAhora';
 import { Direccion } from './Componente/Direccion';
 import { FinalizarCompra } from './Componente/FinalizarCompra';
 import { PagoExito } from './Componente/PagoExito';
+import { MenuBarra } from './Componente/MenuBarra';
+import { MiCuenta } from './Componente/MiCuenta';
+
 
 function App() {
 
@@ -84,6 +86,7 @@ const eliminarCupon = () => {
     }
     fetchData();
   },[]);
+
 
   const addToCart = (product) => {
     
@@ -192,7 +195,8 @@ const eliminarCupon = () => {
   return (
       <main className='container'>
         <Routes>
-          <Route path='/' element={ <> <h1 className='title__principal'>Productos</h1> <ProductList products={products} addToCart={addToCart} /> </> } />
+          <Route path='/' element={<Navigate to={'/inicio'} reduce /> } />
+          <Route path='/inicio' element={ <> <h1 className='title__principal'>Productos</h1> <ProductList products={products} addToCart={addToCart} /> </> } />
           <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
@@ -202,8 +206,9 @@ const eliminarCupon = () => {
           <Route path='/direccion' element={<Direccion setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
           <Route path='/finalizarCompra' element={<FinalizarCompra setCart={setCart} setDescuento={setDescuento} /> } />
           <Route path='/pagoExito' element={<PagoExito /> } />
+          <Route path='/miCuenta' element={<MiCuenta /> } />
         </Routes>
-        <IrToCart cart={cart} totalItems={totalItems} totalFinal={totalFinal} />
+        <MenuBarra totalItems={totalItems} />
       </main>
   )
 }
