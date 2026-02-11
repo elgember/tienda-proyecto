@@ -1,26 +1,24 @@
+import { Icon } from "@iconify/react/dist/iconify.js"
+
 export const MiPerfil = () => {
+
+
+
     return (
     <section>
         <div>
-            <label htmlFor="name">
-                <input type="text"  placeholder="Nombre Completo"/>
-            </label>
+            <Icon icon="gg:profile" width="24" height="26" />
+            <h2>Nombre Usuario</h2>
+            <p>correo usuario</p>
         </div>
         <div>
-            <input type="text" placeholder="Email" />
-        </div>
-        <div>
-            <input type="number" name="" id="" placeholder="Numero de telefon" />
-        </div>
-        <div>
-            <input type="text" placeholder="Direccion" />
-        </div>
-        <div>
-            <label htmlFor="re">Escribe alguna referencia de tu direccion</label>
-            <input type="text" id="re" placeholder="Referencia" />
-        </div>
-        <div>
-            <button>Guardar</button>
+            <div>
+                <Icon icon="mdi:account-outline" width="26" height="28" />
+                <p>Informacion Cuenta</p>
+            </div>
+            <div>
+                <p></p>
+            </div>
         </div>
     </section>
     )

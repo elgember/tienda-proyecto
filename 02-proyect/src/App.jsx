@@ -13,6 +13,7 @@ import { FinalizarCompra } from './Componente/FinalizarCompra';
 import { PagoExito } from './Componente/PagoExito';
 import { MenuBarra } from './Componente/MenuBarra';
 import { MiCuenta } from './Componente/MiCuenta';
+import { MiPerfil } from './Componente/MiPerfil';
 
 
 function App() {
@@ -52,6 +53,18 @@ function App() {
   useEffect(()=> {
     localStorage.setItem('descuento', JSON.stringify(descuento));
   },[descuento]); 
+
+  //estado global del usuario datos 
+  const [usuario, setUsuario] = useState(() => {
+    const Guardar = localStorage.getItem('datos__usuario');
+    return Guardar? JSON.parse(Guardar) : null;
+  });
+
+  //funcion para guardar los datos desde cualquier componente
+  const guardarCuenta = (datos) => {
+    setUsuario(datos);
+    localStorage.setItem('datos__usuario', JSON.stringify(datos));
+  }
 
 
   // cupones usados y guadados 
@@ -195,18 +208,19 @@ const eliminarCupon = () => {
   return (
       <main className='container'>
         <Routes>
-          <Route path='/' element={<Navigate to={'/inicio'} reduce /> } />
+          <Route path='/' element={<Navigate to={'/inicio'} replace /> } />
           <Route path='/inicio' element={ <> <h1 className='title__principal'>Productos</h1> <ProductList products={products} addToCart={addToCart} /> </> } />
           <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
-          <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} garantia={garantia} />} />
+          <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
           <Route path='/compraAhora' element={<CompraAhora totalFinal={totalFinal} irDireccion={irDireccion} loading={loading} setLoading={setLoading} /> } />
-          <Route path='/direccion' element={<Direccion setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
+          <Route path='/direccion' element={<Direccion usuario={usuario} setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
           <Route path='/finalizarCompra' element={<FinalizarCompra setCart={setCart} setDescuento={setDescuento} /> } />
           <Route path='/pagoExito' element={<PagoExito /> } />
-          <Route path='/miCuenta' element={<MiCuenta /> } />
+          <Route path='/miCuenta' element={<MiCuenta registro={guardarCuenta} usuario={usuario} /> } />
+          <Route path='/miPerfil' element={<MiPerfil usuario={usuario} /> } />
         </Routes>
         <MenuBarra totalItems={totalItems} />
       </main>

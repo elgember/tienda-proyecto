@@ -1,0 +1,47 @@
+.profile__nav {
+    width: 100%;
+    background-color: #47e;
+    height: 140px;
+    padding: 10px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    margin-bottom: 10px;
+}
+
+.icon__profile {
+    width: 50px;
+    height: 40px;
+    font-weight: 100;
+    color: #000;
+}
+
+.hola {
+    padding-left: 10px;
+    color: #000;
+}
+
+.container__datos {
+    margin-top: 10px;
+}
+
+.datos__cuenta {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: 20px;
+}
+
+.datos__p {
+    margin-left: 20px;
+}
+
+.datos__por {
+    font-size: 10px;
+    position: absolute;
+    top: 10px;
+    left: 8px;
+}

@@ -4,7 +4,9 @@ export const ProductCard = ({product, addToCart}) => {
 
     const location = useLocation();
 
-    if (location.pathname === '/product') {
+    if (!product) return null;
+
+    if (location.pathname.startsWith('/product')) {
         return null
     }
 
@@ -13,7 +15,7 @@ export const ProductCard = ({product, addToCart}) => {
         <Link className="producto__to" to={`/product/${product.id}`}>
                 <img className="card__image" src={product.image} alt={product.title} />
             <div>
-                <h3 className="card__title">{product.title}</h3>
+                <h3 className="card__title">{product.title.length > 50 ? product.title.substring(0, 50) + '...' : product.title}</h3>
                 <p className="prime">${product.price}</p>
             </div>
         </Link>

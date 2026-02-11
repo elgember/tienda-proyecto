@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Btn__volver } from "./page/btn__volver"
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const Direccion = ({ loading, setLoading, totalApagar }) => {
+export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
 
     //inicia el look aqui en la raiz del componente
     const navigate = useNavigate();
@@ -13,6 +13,9 @@ export const Direccion = ({ loading, setLoading, totalApagar }) => {
 
     //estado de la animacion sacudida del boton estando vacion los input
     const [shake, setShake] = useState(false);
+
+    //se inicia en true si el usuario ya tiene una direccion guardado
+    const [confirmado, setConfirmado] = useState(!!usuario?.direccion);
 
     //Rastear que input tiene el foco
     const [campoActivo, setCampoActivo] = useState('');
@@ -39,6 +42,18 @@ export const Direccion = ({ loading, setLoading, totalApagar }) => {
     useEffect(() => {
         localStorage.setItem('datos__confirmados', JSON.stringify(datosCliente));
     }, [datosCliente]);
+
+
+    useEffect(() => {
+        if(usuario) {
+            setDatosCliente(prev => ({
+                ...prev,
+                name: usuario.name || '',
+                firstName: usuario.firstName || '',
+                lastName: usuario.lastName || ''
+            }));
+        }
+    }, [usuario]);
 
 
     //para capturar el evento de escritura
@@ -101,8 +116,32 @@ export const Direccion = ({ loading, setLoading, totalApagar }) => {
     };
 
 
+if (confirmado && usuario?.direccion) {
     return (
-    <section className="section__envio">
+        <section>
+            <div>
+                 <Btn__volver/>
+            </div>
+            <h2>Confirma tu direccion de envio</h2>
+            <div>
+                <div>
+                    <p><strong>Entrega a:</strong> {usuario.name} {usuario.firstName} {usuario.lastName}</p>
+                    <p><strong>Direccion:</strong> {usuario.direccion}</p>
+                    <p><strong>Email</strong> {usuario.email}</p>
+                    <p><strong>Telefono</strong> {usuario.telefono}</p>
+                </div>
+                <button onClick={() => setConfirmado(false)}>Modificar direccion</button>
+            </div>
+            <div>
+                <button>
+                    {loading ? 'procesando...' : 'Confirmar y pagar'}
+                </button>
+            </div>
+        </section>
+    );
+}
+    return (
+        <section className="section__envio">
         <div className="volver">
             <Btn__volver/>
         </div>
@@ -140,8 +179,8 @@ export const Direccion = ({ loading, setLoading, totalApagar }) => {
                 </label>
         </div>
         <div className="container__boton">
-            <button className={`guardar__direccion ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={(() => cargarCompraFinal(totalApagar))} >{loading ? 'cargando...' : 'Guardar'}</button>
+            <button className={`guardar__direccion ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={cargarCompraFinal} >{loading ? 'cargando...' : 'Guardar Direccion'}</button>
         </div>
     </section>
-    )
+    );
 }
