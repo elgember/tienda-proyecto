@@ -7,7 +7,7 @@ export const Btn__volver = () => {
     return (
     <div className="container__volver">
         <button className="btn__volver" onClick={()=> navegate(-1)}>
-            <Icon icon="ion:arrow-back" className="arrow__volver"/> 
+            <Icon icon="solar:arrow-left-linear" width="24" height="24" className="arrow__volver"/> 
         </button>
     </div>
     )

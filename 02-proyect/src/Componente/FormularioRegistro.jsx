@@ -1,6 +1,6 @@
 import s  from '../Componente/FormularioRegistro.module.css';
 
-export const FormularioRegistro = () => {
+export const FormularioRegistro = ({ crear, registro, setVistaActual }) => {
     return (
     <form className={s.container__profile} onSubmit={crear}>
         <fieldset>

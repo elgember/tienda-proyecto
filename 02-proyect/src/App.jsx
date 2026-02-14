@@ -14,6 +14,8 @@ import { PagoExito } from './Componente/PagoExito';
 import { MenuBarra } from './Componente/MenuBarra';
 import { MiCuenta } from './Componente/MiCuenta';
 import { MiPerfil } from './Componente/MiPerfil';
+import { Buscar } from './Componente/Content/Buscar';
+import { Favoritos } from './Componente/Content/Favoritos';
 
 
 function App() {
@@ -32,16 +34,37 @@ function App() {
   // cupones activos
   const [nombreCuponActivo, setNombreCuponActivo] = useState('');
 
-    // estado de lectura de memoria
+    // estado de lectura de memoria guardado
   const [cart, setCart] = useState(() => {
     const guardadoCart = localStorage.getItem('carrito__compras');
     return guardadoCart ? JSON.parse(guardadoCart) : [];
   });
 
+    //efecto para guardar cada vez que cambie
   useEffect(() => {
     localStorage.setItem('carrito__compras', JSON.stringify(cart));
   }, [cart]);
 
+    //guardar favorito
+  const [favorito, setFavorito] = useState(() => {
+    const favoriteData = localStorage.getItem('mis__favoritos');
+    return favoriteData ? JSON.parse(favoriteData) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('mis__favoritos', JSON.stringify(favorito));
+  }, [favorito]);
+
+  //funcion para alterna para (quitar/dar) me gusta
+  const toggleFavorito = (products) => {
+    const meGusta = favorito.find(item => item.id === products.id);
+    if (meGusta) {
+      //si ya esta, lo quitamos
+      setFavorito(favorito.filter(item => item.id !== products.id));
+    } else {
+      setFavorito([...favorito, products]);
+    }
+  } 
 
       // descuento y guadado del decuento
   const [descuento, setDescuento] = useState(()=> {
@@ -209,7 +232,7 @@ const eliminarCupon = () => {
       <main className='container'>
         <Routes>
           <Route path='/' element={<Navigate to={'/inicio'} replace /> } />
-          <Route path='/inicio' element={ <> <h1 className='title__principal'>Productos</h1> <ProductList products={products} addToCart={addToCart} /> </> } />
+          <Route path='/inicio' element={ <> <h1 className='title__principal'>Productos</h1> <ProductList products={products} addToCart={addToCart} toggleFavorito={toggleFavorito} favorito={favorito} /> </> } />
           <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
@@ -219,8 +242,10 @@ const eliminarCupon = () => {
           <Route path='/direccion' element={<Direccion usuario={usuario} setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
           <Route path='/finalizarCompra' element={<FinalizarCompra setCart={setCart} setDescuento={setDescuento} /> } />
           <Route path='/pagoExito' element={<PagoExito /> } />
-          <Route path='/miCuenta' element={<MiCuenta registro={guardarCuenta} usuario={usuario} /> } />
+          <Route path='/miCuenta' element={<MiCuenta registro={guardarCuenta} usuario={usuario} favorito={favorito} toggleFavorito={toggleFavorito}  addToCart={addToCart} /> } />
           <Route path='/miPerfil' element={<MiPerfil usuario={usuario} /> } />
+          <Route path='/buscar' element={<Buscar products={products} addToCart={addToCart} /> } />
+          <Route path='/favoritos' element={<Favoritos addToCart={addToCart} toggleFavorito={toggleFavorito} favorito={favorito} products={products} /> } />
         </Routes>
         <MenuBarra totalItems={totalItems} />
       </main>

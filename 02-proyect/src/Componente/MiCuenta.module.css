@@ -1,9 +1,16 @@
-        /* contenedor de ambos */
 
-        /*secion de crear Cuenta */
+.container__vista {
+    
+}
 
+.regresar__menu {
+    background-color: transparent;
+    border: none;
+    margin: 10px 0;
+}
 
-
-
-        /*secion de perfil */
-
+.icon__menu {
+    width: 60px;
+    height: 40px;
+    font-size: 30px;
+}

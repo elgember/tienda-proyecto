@@ -1,0 +1,49 @@
+
+.container__ayuda {
+   position: absolute;
+   top: 0;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   overflow: hidden;
+}
+
+.icon__ayuda {
+    position: absolute;
+    left: 0;
+}
+
+.title__ayuda {
+    width: 900px;
+    background-color: #eee;
+    height: 200px;
+    padding-top: 40px;
+    border-radius: 0 0 50% 50%;
+}
+
+.title__ayuda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input__ayuda {
+    width: 400px;
+    padding: 15px;
+    border-radius: 50px;
+    border: none;
+    box-shadow: 0 0 15px 5px #0001;
+}
+
+.opcion {
+    background-color: #eee;
+    padding: 20px;
+    width: 420px;
+}
+
+.opcion__ayuda {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

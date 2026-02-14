@@ -1,23 +1,21 @@
-import s from './MiCuenta.module.css';
+import s from '../Componente/MiCuenta.module.css';
 import { useState } from "react";
-import { Inicio } from './Content/Inicio';
-import { Buscar } from './Content/Buscar';
 import { Ayuda } from './Content/Ayuda';
 import { Notificaciones } from './Content/Notificaciones';
 import { MisCompras } from './Content/MisCompras';
 import { MisOpiniones } from './Content/MisOpiniones';
-import { Favoritos } from './Content/Favoritos';
 import { Oferta } from './Content/Oferta';
 import { Cupones } from './Content/Cupones';
 import { SeguroGarantia } from './Content/SeguroGarantia';
 import { Historial } from './Content/Historial';
 import { MenuPrinciapal } from './MenuPrinciapal'
 import { FormularioRegistro } from './FormularioRegistro';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 
 
 
-export const MiCuenta = ({ registro, usuario }) => {
+export const MiCuenta = ({ registro, usuario, favorito, toggleFavorito, addToCart }) => {
 
     //estado para controlar que ver 'menu', compra, favoritos
     const [vistaActual, setVistaActual] = useState('menu');
@@ -32,18 +30,15 @@ export const MiCuenta = ({ registro, usuario }) => {
     };
 
     if (!usuario){
-        return <FormularioRegistro registro={registro} setVistaActual={setVistaActual} />
+        return <FormularioRegistro registro={registro} setVistaActual={setVistaActual} crear={crear} />
 }
     //logica de navegacion
     const renderContent = () => {
         switch (vistaActual) {
-            case 'inicio' : return <Inicio />;
-            case 'buscar' : return <Buscar/>;
             case 'notificaciones' : return <Notificaciones />;
-            case 'ayuda' : return <Ayuda />;
+            case 'ayuda' : return <Ayuda usuario={usuario} setVistaActual={setVistaActual} />;
             case 'misCompras' : return <MisCompras />;
             case 'misOpiniones' : return <MisOpiniones />
-            case 'favoritos' : return <Favoritos />;
             case 'oferta' : return <Oferta />;
             case 'cupones' : return <Cupones />
             case 'seguroGarantia' : return <SeguroGarantia />
@@ -55,9 +50,9 @@ export const MiCuenta = ({ registro, usuario }) => {
     }
 
     return (
-        <div className={s.conatainer__vista}>
+        <div className={s.container__vista}>
             {vistaActual !== 'menu' && (
-                <button onClick={()=> setVistaActual('menu')}>Volver a menu</button>
+                <button onClick={()=> setVistaActual('menu')} className={s.regresar__menu}><Icon icon="solar:arrow-left-linear" width="24" height="24" className={s.icon__menu} /></button>
             )}
             {renderContent()}
         </div>

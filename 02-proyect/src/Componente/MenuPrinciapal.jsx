@@ -1,8 +1,12 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { IrToProfile } from './page/IrToProfile'; 
 import s  from '@/Componente/MenuPrinciapal.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export const MenuPrinciapal = ({ setVistaActual, usuario }) => {
+
+    //Inicia la funcion de navigacion 
+    const navigate = useNavigate();
 
     return (
     <div className={s.container__profile}>
@@ -15,20 +19,20 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }) => {
                     <IrToProfile />
                 </div>
             </div>
-            <div className={s.container__datos} onClick={() => setVistaActual('inicio')}>
-                <div className={s.datos__cuenta}>
+            <div className={s.container__datos}>
+                <div className={s.datos__cuenta} onClick={() => navigate('/inicio')}>
                     <Icon icon="mingcute:home-4-line" width="26" height="28" />
                     <p className={s.datos__p}>Inicio</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={() => navigate('/buscar')}>
                     <Icon icon="bitcoin-icons:search-filled" width="26" height="24" />
                     <p className={s.datos__p}>Buscar</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> setVistaActual('notificaciones')}>
                     <Icon icon="mi:notification" width="24" height="24" />
                     <p className={s.datos__p}>Notificaciones</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> setVistaActual('ayuda')}>
                     <Icon icon="weui:help-outlined" width="24" height="24" />
                     <p className={s.datos__p}>Ayuda</p>
                 </div>
@@ -40,7 +44,7 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }) => {
                     <Icon icon="material-symbols-light:reviews-outline" width="24" height="24" />
                     <p className={s.datos__p}>Mis opiniones</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> navigate('/favoritos')}>
                     <Icon icon="iconamoon:heart-light" width="24" height="24" />
                     <p className={s.datos__p}>Favoritos</p>
                 </div>

@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const menu = [
     {id: 'inicio', label: 'Inicio', IconoOff: <Icon icon="mingcute:home-4-fill" width="26" height="28" />, IconoOn: <Icon icon="mingcute:home-4-line" width="26" height="28" />},
-    {id: 'favorito', label: 'Favorito', IconoOff: <Icon icon="streamline-ultimate:tags-favorite-bold" width="24" height="28" />, IconoOn: <Icon icon="streamline-ultimate:tags-favorite" width="24" height="28" />},
+    {id: 'favoritos', label: 'Favoritos', IconoOff: <Icon icon="streamline-ultimate:tags-favorite-bold" width="24" height="28" />, IconoOn: <Icon icon="streamline-ultimate:tags-favorite" width="24" height="28" />},
     {id: 'categoria', label: 'Categoria', IconoOff: <Icon icon="tabler:category-filled" width="24" height="28" />, IconoOn: <Icon icon="tabler:category" width="24" height="28" />},
     {id: 'cart', label: 'Carrito', IconoOff: <Icon icon="fluent:cart-16-filled" width="26" height="28" />, IconoOn: <Icon icon="fluent:cart-16-regular" width="26" height="28" />},
     {id: 'miCuenta', label: 'Cuenta', IconoOff: <Icon icon="mdi:account" width="26" height="28" />, IconoOn: <Icon icon="mdi:account-outline" width="26" height="28" />}
