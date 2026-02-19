@@ -1,20 +1,20 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
 import s from './Ayuda.module.css';
-import { Btn__volver } from '../page/btn__volver';
 
 export const Ayuda = ({ usuario, setVistaActual }) => {
     return (
     <div className={s.container__ayuda}>
-        <div className={s.icon__ayuda}>
-            <Btn__volver />
-        </div>
+                {/* nombre de usuario y parrafo */}
         <div className={s.title__ayuda}>
             <p>Hola, {usuario.name} {usuario.firstName}</p>
             <h2>¿Con que te ayudamos?</h2>
-            <div>
+                        {/* contenedor de input de buscar ayuda */}
+            <div className={s.buscar__ayuda}>
+                <Icon icon="mingcute:search-ai-line" width="24" height="24" className={s.icon__search} />
                 <input type="text" name="" id="" className={s.input__ayuda} />
             </div>
         </div>
+                        {/* contendor atajos y de las preguntas frecuentes  */}
         <div className={s.ayuda}>
             <p>Atajos personalizados</p>
             <div className={s.opcion}>
@@ -40,11 +40,13 @@ export const Ayuda = ({ usuario, setVistaActual }) => {
                 </div>
             </div>
         </div>
-        <div>
-            <p>¿Necesitas mas ayuda?</p>
-            <button>
-                Contactanos
-            </button>
+                    {/* div del contact */}
+        <div className={s.ayuda__contact}>
+            <p className={s.necesita__ayuda}>¿Necesitas mas ayuda?</p>
+                <button className={s.boton__ayuda}>
+                    <Icon icon="tabler:message" width="24" height="24" className={s.icon__boton} />
+                    Contactanos
+                </button>
         </div>
     </div>
     )

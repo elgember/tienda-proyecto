@@ -36,7 +36,7 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }) => {
                     <Icon icon="weui:help-outlined" width="24" height="24" />
                     <p className={s.datos__p}>Ayuda</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> setVistaActual('misCompras')}>
                     <Icon icon="material-symbols-light:shopping-bag-outline" width="24" height="24" />
                     <p className={s.datos__p}>Mis compras</p>
                 </div>

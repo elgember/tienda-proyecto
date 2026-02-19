@@ -1,31 +1,39 @@
 
 .container__ayuda {
-   position: absolute;
    top: 0;
    width: 100%;
+   height: 100%;
    display: flex;
    flex-direction: column;
    align-items: center;
    overflow: hidden;
+   position: relative;
 }
 
-.icon__ayuda {
-    position: absolute;
-    left: 0;
-}
 
+/* contenedor title y input de preguntas de ayuda */
 .title__ayuda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 900px;
     background-color: #eee;
     height: 200px;
     padding-top: 40px;
     border-radius: 0 0 50% 50%;
+    position: fixed;
+    top: 0;
 }
 
-.title__ayuda {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+.buscar__ayuda {
+    position: relative;
+}
+
+.icon__search {
+    position: absolute;
+    top: 11px;
+    left: 10px;
 }
 
 .input__ayuda {
@@ -36,6 +44,14 @@
     box-shadow: 0 0 15px 5px #0001;
 }
 
+
+/*contenedor de las preguntas frecuentes */
+.ayuda {
+    margin-top: 180px;
+}
+
+
+/*diseño de los atajos de preguntas */
 .opcion {
     background-color: #eee;
     padding: 20px;
@@ -46,4 +62,50 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
+
+.ayuda__contact {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.necesita__ayuda {
+   font-size: 20px;
+}
+
+.boton__ayuda {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #47e3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #46f;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.icon__boton {
+    padding-right: 10px;
+}
+
+
+@media screen and (min-width: 700px) {
+    .title__ayuda {
+        width: 1000px;
+    }
+
+    .ayuda__contact {
+        width: 70%;   
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .title__ayuda {
+        width: 2000px;
+    }
+} 

@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom"
 import { Btn__volver } from "./page/btn__volver";
+import { useEffect } from "react";
 
 export const ProductDetalles = ({ products, addToCart, setLoading, garantia }) => {
 
@@ -8,7 +9,22 @@ export const ProductDetalles = ({ products, addToCart, setLoading, garantia }) =
     //Buscamos el producto especifico
     const product = products.find(item => item.id === parseInt(id));
 
-    if (!product) return setLoading(true);
+    useEffect(() => {
+        if (!product) {
+            setLoading(true);
+        } else {
+            setLoading(false);
+        }
+        return () => setLoading(false);
+    }, [product, setLoading]);
+
+    if (!product) {
+        return(
+            <div>
+                <p>Cargando producto...</p>
+            </div>
+        )
+    }
 
     return (
     <div className="detalle__contenedor">

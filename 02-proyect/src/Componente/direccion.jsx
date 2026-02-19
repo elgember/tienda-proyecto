@@ -14,9 +14,6 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
     //estado de la animacion sacudida del boton estando vacion los input
     const [shake, setShake] = useState(false);
 
-    //se inicia en true si el usuario ya tiene una direccion guardado
-    const [confirmado, setConfirmado] = useState(!!usuario?.direccion);
-
     //Rastear que input tiene el foco
     const [campoActivo, setCampoActivo] = useState('');
 
@@ -35,8 +32,24 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
      //estado compartido para el formulario y guardado 
     const [datosCliente, setDatosCliente] = useState(() => {
         const guardado = localStorage.getItem('datos__confirmados');
-        return guardado ? JSON.parse(guardado) : datosVacio;
+        if (guardado) return JSON.parse(guardado);
+
+        if (usuario) {
+            return {
+                ...datosVacio,
+                name: usuario.name || '',
+                firstName: usuario.firstName || '',
+                lastName: usuario.lastName || '',
+                direccion: usuario.direccion || '',
+                telefono: usuario.telefono || ''
+            };
+        }
+        return datosVacio;
     });
+
+    //se inicia en true si el usuario ya tiene una direccion guardado
+    const [confirmado, setConfirmado] = useState(!!datosCliente.direccion);
+
 
     //guaradar automaticamente cuando el usuario escribe
     useEffect(() => {
@@ -48,9 +61,12 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
         if(usuario) {
             setDatosCliente(prev => ({
                 ...prev,
-                name: usuario.name || '',
-                firstName: usuario.firstName || '',
-                lastName: usuario.lastName || ''
+                name: prev.name || usuario.name || '',
+                firstName: prev.firstName || usuario.firstName || '',
+                lastName: prev.lastName || usuario.lastName || '',
+                direccion: prev.direccion || usuario.direccion || '',
+                
+                telefono: prev.telefono || usuario.telefono || ''
             }));
         }
     }, [usuario]);
@@ -59,14 +75,23 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
     //para capturar el evento de escritura
     const datoNombre = (e) => {
         const { name, value } = e.target;
+
+        if (name === 'telefono') {
+            const soloNumero = value.replace(/\D/g, '') // elimina cualquier cosa que no sea numero
+            if (soloNumero.length <= 10) {
+                setDatosCliente({ ...datosCliente, [name]: soloNumero });
+            }
+            return;
+        }
         setDatosCliente({ ...datosCliente, [name]: value });
     };
+
 
     const obtenerSugerencia = (nombreCampo) => {
         const valorActual = datosCliente[nombreCampo];
         const opciones = sugerencias[nombreCampo];
 
-        if (!valorActual || !opciones) return
+        if (!valorActual || !opciones) return;
 
         return opciones.find(s => 
             s.toLowerCase().startsWith(valorActual.toLowerCase()) && s.toLowerCase() !== valorActual.toLowerCase()
@@ -76,9 +101,15 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
     const sugerenciaActual = obtenerSugerencia(campoActivo);
 
     const enterKey = (e) => {
-        if (e.key === 'Enter' && sugerenciaActual) {
-            e.preventDefault(); // Evita que el formulario en envie accidentamente
-            setDatosCliente({ ...datosCliente, [campoActivo]: sugerenciaActual })
+        if (e.key === 'Enter') {
+            //si hay sugerencia activa en el input la aplica primero
+            if (sugerenciaActual) {
+                e.preventDefault(); // Evita que el formulario en envie accidentamente
+                setDatosCliente({ ...datosCliente, [campoActivo]: sugerenciaActual })
+            } else if (campoActivo === 'telefono' && formularioCompleto) {
+                e.preventDefault();
+                cargarCompraFinal();
+            }
         }
     };
 
@@ -86,7 +117,8 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
         datosCliente.name.trim() !== '' && 
         datosCliente.firstName.trim() !== '' &&
         datosCliente.lastName.trim() !== '' &&
-        datosCliente.direccion.trim() !== '';
+        datosCliente.direccion.trim() !== '' &&    
+        datosCliente.telefono.length >= 7; //validacion de longitud minima
 
     
     const precioParaPagar = location.state?.totalApagar || totalApagar;
@@ -102,13 +134,16 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
 
         setLoading(true);
 
-        localStorage.setItem('datosConfirmados', JSON.stringify(datosCliente));
+        const datoParaEnviar = { ...datosCliente };
 
         setTimeout(() => {
-            setLoading(null);
+            setLoading(false);
+
+            localStorage.setItem('datos__confirmados', JSON.stringify(datoParaEnviar));
+
                 //navega a la siguente pagina con los datos guardados
                 navigate('/finalizarCompra', {
-                    state: { cliente: datosCliente,
+                    state: { cliente: datoParaEnviar,
                             totalApagar: precioParaPagar 
                         }
                 }); 
@@ -116,7 +151,7 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
     };
 
 
-if (confirmado && usuario?.direccion) {
+if (confirmado && datosCliente.direccion) {
     return (
         <section>
             <div>
@@ -125,15 +160,15 @@ if (confirmado && usuario?.direccion) {
             <h2>Confirma tu direccion de envio</h2>
             <div>
                 <div>
-                    <p><strong>Entrega a:</strong> {usuario.name} {usuario.firstName} {usuario.lastName}</p>
-                    <p><strong>Direccion:</strong> {usuario.direccion}</p>
-                    <p><strong>Email</strong> {usuario.email}</p>
-                    <p><strong>Telefono</strong> {usuario.telefono}</p>
+                    <p><strong>Entrega a:</strong> {datosCliente.name} {datosCliente.firstName} {datosCliente.lastName}</p>
+                    <p><strong>Direccion:</strong> {datosCliente.direccion}</p>
+                    
+                    <p><strong>Telefono</strong> {datosCliente.telefono}</p>
                 </div>
                 <button onClick={() => setConfirmado(false)}>Modificar direccion</button>
             </div>
             <div>
-                <button>
+                <button onClick={cargarCompraFinal}> 
                     {loading ? 'procesando...' : 'Confirmar y pagar'}
                 </button>
             </div>
@@ -170,16 +205,16 @@ if (confirmado && usuario?.direccion) {
         </div>
         <div className="container__direccion">
             <label htmlFor="direccion">Direccion
-                <input className="envio__direccion" type="text" value={datosCliente.direccion} onChange={datoNombre} onKeyDown={enterKey} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
+                <input className="envio__direccion" type="text" value={datosCliente.direccion} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('direccion')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
             </label>
         </div>
         <div className="container__numero">
                 <label htmlFor="num">Telefono
-                    <input type="number" name="telefono" value={datosCliente.telefono} onChange={datoNombre} onKeyDown={enterKey} id="num" placeholder="Numero de telefono" />
+                    <input type="tel" name="telefono" value={datosCliente.telefono} onChange={datoNombre} onKeyDown={enterKey} id="num" onFocus={()=> setCampoActivo('telefono')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} placeholder="Numero de telefono" />
                 </label>
         </div>
         <div className="container__boton">
-            <button className={`guardar__direccion ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={cargarCompraFinal} >{loading ? 'cargando...' : 'Guardar Direccion'}</button>
+            <button className={`guardar__direccion ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={()=> cargarCompraFinal()} >{loading ? 'cargando...' : 'Guardar Direccion'}</button>
         </div>
     </section>
     );

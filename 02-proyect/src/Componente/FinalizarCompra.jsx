@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom"
 
-export const FinalizarCompra = ({ setCart, setDescuento }) => {
+export const FinalizarCompra = ({ setCart, cart, finalizarCompra }) => {
 
     //para recuperar la info
     const location = useLocation();
@@ -16,12 +16,6 @@ export const FinalizarCompra = ({ setCart, setDescuento }) => {
         navigate('/direccion');
     }
 
-    const ConfirmarYPagar = () => {
-        localStorage.removeItem('datos__confirmados');
-        setCart([]);
-        setDescuento(0);
-        navigate('/pagoExito');
-    }
 
     return (
     <div className="section__info">
@@ -40,7 +34,7 @@ export const FinalizarCompra = ({ setCart, setDescuento }) => {
             <strong>{totalApagar.toFixed(2)}</strong>
         </div>
         <div>
-            <button className="compra__pagar" onClick={ConfirmarYPagar}>Confirmar y pagar</button>
+            <button className="compra__pagar" onClick={()=> finalizarCompra(cart, totalApagar)}>Confirmar y pagar</button>
         </div>
     </div>
     )

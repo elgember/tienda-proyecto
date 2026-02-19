@@ -125,9 +125,9 @@ body {
     display: flex;
     flex-direction: column;
     max-width: 1200px;
+    height: 100%;
     margin: 0 auto;
     position: relative;
-    overflow: hidden;
     transition: all 0.5s ease-in-out;  
 }
 
@@ -137,7 +137,7 @@ body {
     justify-content: space-between;
     gap: 20px;
     width: 100%;
-    height: 100vh;
+    height: 100%;
 }
 
 .cart__principal {
@@ -805,28 +805,6 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-                /*  BTN-VOLVER  */
-/*ajustes del boton volver de las paginas*/
-
-.container__volver {
-    position: relative;
-}
-
-.btn__volver {
-    position: absolute;
-    top: 1.2rem;
-    left: 10px;
-    border: none;
-    background-color: transparent;
-    font-size: 30px;
-}
-
-.btn__volver:hover {
-    font-size: 2.2rem;
-    top: 1.1rem;
-    transition: 0.5s ease;
 }
 
 

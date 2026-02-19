@@ -10,7 +10,7 @@ const menu = [
     {id: 'miCuenta', label: 'Cuenta', IconoOff: <Icon icon="mdi:account" width="26" height="28" />, IconoOn: <Icon icon="mdi:account-outline" width="26" height="28" />}
 ]
 
-export const MenuBarra = ({ totalItems }) => {
+export const MenuBarra = ({ totalItems, favorito }) => {
 
     //para navegar
     const navigate = useNavigate();
@@ -19,9 +19,12 @@ export const MenuBarra = ({ totalItems }) => {
     const location = useLocation();
 
     //lista de rutas que no aparecen la barra
-    const ocultarMenu = ['/cart'];
+    const ocultarRuta = ['/cart', '/miCuenta', '/product', '/compraAhora' ];
 
-    if (ocultarMenu.includes(location.pathname)) {
+    //comprobamos si las rutas actuales enpiezan con alguna de la lista
+    const deberiaOcultar = ocultarRuta.some(ruta => location.pathname.startsWith(ruta));
+
+    if (deberiaOcultar) {
         return null;
     }
 
@@ -46,11 +49,16 @@ export const MenuBarra = ({ totalItems }) => {
 
                 const carrito = item.id === 'cart';
 
+                const fav = item.id === 'favoritos';
+
                 return (
                         <div key={item.id} className={`${styles.menu__item} ${menuSelecionado ? styles.active : '' } `} onClick={()=> menuClick(item.id)}>
                                 {menuSelecionado ? item.IconoOff : item.IconoOn}
                                 {carrito && totalItems > 0 && (
                                     <span className={styles.totalItems}>{totalItems}</span>
+                                )}
+                                {fav && favorito?.length > 0 && (
+                                    <span className={styles.fav}>{favorito.length}</span>
                                 )}
                         </div>
                     );

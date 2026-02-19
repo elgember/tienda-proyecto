@@ -27,9 +27,18 @@
     transform: translateY(-2px);
 }
 
+/* numero foltante de carrito*/
 .totalItems {
    font-weight: bold;
    position: absolute;
    top: -9px;
    right: 0;
+}
+
+/* numero flotante de favoritos*/
+.fav {
+    position: absolute;
+    top: -11px;
+    right: -5px;
+    font-weight: bold;
 }

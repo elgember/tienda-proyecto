@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { ProductList } from './Componente/ProductList';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate, data } from 'react-router-dom';
 import { Cart } from './Componente/Cart';
 import { Cupon } from './Componente/Cupon';
 import { BarraEnvio } from './Componente/BarraEnvio';
@@ -16,6 +16,8 @@ import { MiCuenta } from './Componente/MiCuenta';
 import { MiPerfil } from './Componente/MiPerfil';
 import { Buscar } from './Componente/Content/Buscar';
 import { Favoritos } from './Componente/Content/Favoritos';
+import { Categoria } from './Componente/BarraMenu/Categoria';
+
 
 
 function App() {
@@ -51,9 +53,11 @@ function App() {
     return favoriteData ? JSON.parse(favoriteData) : [];
   });
 
+  //guardar favorito en cuanto cambie
   useEffect(() => {
     localStorage.setItem('mis__favoritos', JSON.stringify(favorito));
   }, [favorito]);
+
 
   //funcion para alterna para (quitar/dar) me gusta
   const toggleFavorito = (products) => {
@@ -76,6 +80,7 @@ function App() {
   useEffect(()=> {
     localStorage.setItem('descuento', JSON.stringify(descuento));
   },[descuento]); 
+
 
   //estado global del usuario datos 
   const [usuario, setUsuario] = useState(() => {
@@ -101,10 +106,31 @@ useEffect(() => {
 },[usado]);
 
 
+// area de guardar las compras realizadas
+const [misCompras, setMisCompras] = useState(()=> {
+  const compraData = localStorage.getItem('mis__compras');
+  return compraData? JSON.parse(compraData) : [];
+});
+
+//asistir cambios 
+useEffect(()=> {
+  localStorage.setItem('mis__compras', JSON.stringify(misCompras));
+}, [misCompras]);
+
+const registrarCompra = (productos, total) => {
+  const nuevaCompra = {
+    id: crypto.randomUUID(), //genera un id unico
+    fecha: new Date().toLocaleString('es-MX'),    //fecha y hora actual
+    items: productos,
+    total: total
+  }
+  setMisCompras([nuevaCompra, ...misCompras]);  //la mas reciente primero
+}
+
+
 const eliminarCupon = () => {
           setDescuento(0);
       }
-
 
   useEffect(() => {
     async function fetchData() {
@@ -185,17 +211,18 @@ const eliminarCupon = () => {
     },[subTotal, descuento]);
   
 
-    const finalizarCompra = () => {
+    const finalizarCompra = (productos, total) => {
     //validacion de los cupones
     if (nombreCuponActivo) {
       setUsado([...usado, nombreCuponActivo]);
     }
+    registrarCompra(productos, total);
 
     alert('Pago procesado con exito');
 
     setCart([]);
     setDescuento(0)
-    navigate('/');
+    navigate('/pagoExito');
   }
 
 
@@ -214,6 +241,9 @@ const eliminarCupon = () => {
 
 
   const garantia = () => {
+
+    const tieneGarantia = cart.some(product => product.price > 100);
+
     if(tieneGarantia) {
       navigate('/compraAhora', { state: { misProductos: cart }});
     } else {
@@ -236,18 +266,19 @@ const eliminarCupon = () => {
           <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
-          <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} />} />
+          <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} garantia={garantia} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
           <Route path='/compraAhora' element={<CompraAhora totalFinal={totalFinal} irDireccion={irDireccion} loading={loading} setLoading={setLoading} /> } />
           <Route path='/direccion' element={<Direccion usuario={usuario} setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
-          <Route path='/finalizarCompra' element={<FinalizarCompra setCart={setCart} setDescuento={setDescuento} /> } />
+          <Route path='/finalizarCompra' element={<FinalizarCompra setCart={setCart} cart={cart} finalizarCompra={finalizarCompra} /> } />
           <Route path='/pagoExito' element={<PagoExito /> } />
-          <Route path='/miCuenta' element={<MiCuenta registro={guardarCuenta} usuario={usuario} favorito={favorito} toggleFavorito={toggleFavorito}  addToCart={addToCart} /> } />
+          <Route path='/miCuenta' element={<MiCuenta registro={guardarCuenta} misCompras={misCompras} usuario={usuario} favorito={favorito} toggleFavorito={toggleFavorito}  addToCart={addToCart} /> } />
           <Route path='/miPerfil' element={<MiPerfil usuario={usuario} /> } />
           <Route path='/buscar' element={<Buscar products={products} addToCart={addToCart} /> } />
           <Route path='/favoritos' element={<Favoritos addToCart={addToCart} toggleFavorito={toggleFavorito} favorito={favorito} products={products} /> } />
-        </Routes>
-        <MenuBarra totalItems={totalItems} />
+          <Route path='/categoria' element={<Categoria products={products} favorito={favorito} toggleFavorito={toggleFavorito} addToCart={addToCart} /> } />
+      </Routes>
+      <MenuBarra totalItems={totalItems} favorito={favorito} />
       </main>
   )
 }

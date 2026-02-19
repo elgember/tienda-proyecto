@@ -1,7 +1,10 @@
-export const Historial = () => {
-    return (
-    <div>
+import s from './Historial.module.css';
 
-    </div>
+export const Historial = () => {
+
+    return (
+        <div>
+
+        </div>
     )
 }

@@ -1,0 +1,17 @@
+.volver__menu {
+    position: relative;
+}
+
+.arrow__volver {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    color: #000;
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.arrow__volver:hover {
+    left: 5px;
+}

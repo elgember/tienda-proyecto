@@ -15,7 +15,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 
 
 
-export const MiCuenta = ({ registro, usuario, favorito, toggleFavorito, addToCart }) => {
+export const MiCuenta = ({ registro, usuario, favorito, toggleFavorito, addToCart , misCompras }) => {
 
     //estado para controlar que ver 'menu', compra, favoritos
     const [vistaActual, setVistaActual] = useState('menu');
@@ -37,12 +37,12 @@ export const MiCuenta = ({ registro, usuario, favorito, toggleFavorito, addToCar
         switch (vistaActual) {
             case 'notificaciones' : return <Notificaciones />;
             case 'ayuda' : return <Ayuda usuario={usuario} setVistaActual={setVistaActual} />;
-            case 'misCompras' : return <MisCompras />;
+            case 'misCompras' : return <MisCompras misCompras={misCompras} />;
             case 'misOpiniones' : return <MisOpiniones />
             case 'oferta' : return <Oferta />;
             case 'cupones' : return <Cupones />
             case 'seguroGarantia' : return <SeguroGarantia />
-            case 'historial' : return <Historial />
+            case 'historial' : return <Historial  />
 
             // caso de defecto: el menu de iconos
             default: return <MenuPrinciapal setVistaActual={setVistaActual} usuario={usuario} />
