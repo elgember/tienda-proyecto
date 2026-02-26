@@ -1,23 +1,22 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
+import s from './MiPerfil.module.css';
+import { Btn__volver } from "./page/btn__volver";
 
-export const MiPerfil = () => {
+export const MiPerfil = ({ usuario }) => {
 
 
 
     return (
-    <section>
-        <div>
-            <Icon icon="gg:profile" width="24" height="26" />
-            <h2>Nombre Usuario</h2>
-            <p>correo usuario</p>
+    <section className={s.section}>
+            <Btn__volver />
+        <div className={s.perfil__usuario}>
+            <Icon icon="gg:profile" width="24" height="24" className={s.icon__usuario} />
+            <h2 className={s.usuario__name}>{usuario.name} {usuario.firstName}</h2>
+            <p className={s.usuario__correo}>correo</p>
         </div>
         <div>
-            <div>
-                <Icon icon="mdi:account-outline" width="26" height="28" />
-                <p>Informacion Cuenta</p>
-            </div>
-            <div>
-                <p></p>
+            <div className={s.info__parrafo}>
+                <p>hola</p>
             </div>
         </div>
     </section>

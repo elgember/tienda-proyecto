@@ -3,7 +3,7 @@ import { IrCupon } from "./page/IrCupon";
 import { BarraEnvio } from "./BarraEnvio";
 import { Btn__volver } from "./page/btn__volver";
 
-export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems, totalFinal, ahorro, descuento, subTotal, irAGarantia }) => {
+export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems, totalFinal, ahorro, descuento, subTotal, irAGarantia, nombreCuponActivo }) => {
 
     const metaEnvio = 200;
 
@@ -56,6 +56,7 @@ export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems
                     </div>
                     <div>
                         <IrCupon />
+                        {nombreCuponActivo && <p>Cupon Activo: {nombreCuponActivo}</p>}
                     </div>
             {descuento > 0 ? (
                     <div>
@@ -72,8 +73,9 @@ export const Cart = ({ cart, removeFromCart, menosProduct, addToCart, totalItems
                 <div>
                     <div className="total">
                         <span>Total</span>
-                        <p className="p__total">$ {subTotal.toFixed(2)}</p>
+                        <p className="p__total">$ {totalFinal.toFixed(2)}</p>
                     </div>
+                    
                 </div>
             )}
                 </div>

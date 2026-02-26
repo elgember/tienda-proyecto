@@ -169,7 +169,7 @@ if (confirmado && datosCliente.direccion) {
             </div>
             <div>
                 <button onClick={cargarCompraFinal}> 
-                    {loading ? 'procesando...' : 'Confirmar y pagar'}
+                    {loading ? 'procesando...' : 'Confirmar'}
                 </button>
             </div>
         </section>

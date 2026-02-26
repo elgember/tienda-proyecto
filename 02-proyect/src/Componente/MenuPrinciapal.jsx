@@ -40,7 +40,7 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }) => {
                     <Icon icon="material-symbols-light:shopping-bag-outline" width="24" height="24" />
                     <p className={s.datos__p}>Mis compras</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> setVistaActual('misOpiniones')}>
                     <Icon icon="material-symbols-light:reviews-outline" width="24" height="24" />
                     <p className={s.datos__p}>Mis opiniones</p>
                 </div>
@@ -48,20 +48,20 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }) => {
                     <Icon icon="iconamoon:heart-light" width="24" height="24" />
                     <p className={s.datos__p}>Favoritos</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> setVistaActual('oferta')}>
                     <Icon icon="ic:outline-local-offer" width="24" height="24" />
                     <p className={s.datos__por}>%</p>
                     <p className={s.datos__p}>Ofertas</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> setVistaActual('cupones')}>
                     <Icon icon="lsicon:coupon-outline" width="24" height="24" />
                     <p className={s.datos__p}>Cupones</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> setVistaActual('seguroGarantia')}>
                     <Icon icon="ic:outline-shield" width="24" height="24" />
                     <p className={s.datos__p}>Seguro y garantias</p>
                 </div>
-                <div className={s.datos__cuenta}>
+                <div className={s.datos__cuenta} onClick={()=> setVistaActual('historial')}>
                     <Icon icon="ic:outline-watch-later" width="24" height="24" />
                     <p className={s.datos__p}>Historial</p>
                 </div>

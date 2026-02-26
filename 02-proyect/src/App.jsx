@@ -32,9 +32,19 @@ function App() {
   const [loading, setLoading] = useState(null);
 
    const [cerra, setCerrar] = useState(true);
-
-  // cupones activos
+   
+   // cupones activos
   const [nombreCuponActivo, setNombreCuponActivo] = useState('');
+
+
+  // cupones validos
+const cuponesValidos = [
+  {id: 1, codigo: 'BIENVENIDO10', tipo: 'porcentaje', valor: 10, categoria: 'todas', min: 300, desc: '10% de descuento en tu primera compra sin monto minimo' },
+  {id: 2, codigo: 'VERANO15', tipo: 'porcentaje', valor: 15, categoria: 'electronics', min: 500, desc: '15% de descuento en tu compra de verano' },
+  {id: 3, codigo: 'OFERTA200', tipo: 'fijo', valor: 200, categoria: 'todas', min: 500, desc: '200 de descuento en tu compra' },
+  {id: 4, codigo: 'GAMER20', tipo: 'porcentaje', valor: 20, categoria: 'gaming', min: 300, desc: '20% de descuento en productos de gaming' }
+];
+
 
     // estado de lectura de memoria guardado
   const [cart, setCart] = useState(() => {
@@ -121,16 +131,58 @@ const registrarCompra = (productos, total) => {
   const nuevaCompra = {
     id: crypto.randomUUID(), //genera un id unico
     fecha: new Date().toLocaleString('es-MX'),    //fecha y hora actual
-    items: productos,
+    items: [...productos], //los productos comprados
     total: total
   }
   setMisCompras([nuevaCompra, ...misCompras]);  //la mas reciente primero
 }
 
 
+//Guardar busquedas relizadas el input
+const [busquedaProducto, setBusquedaProducto] = useState(() => {
+  const buscarData = localStorage.getItem('buscar__producto');
+  return buscarData? JSON.parse(buscarData): [];
+});
+
+//guaeda los cambios en la busqueda
+useEffect(() => {
+  localStorage.setItem('buscar__producto', JSON.stringify(busquedaProducto));
+}, [busquedaProducto]);
+
+//guardamos busqueda sin repetir 
+const agregarBusqueda = (termino) => {
+  if (!termino.trim()) return;
+
+  setBusquedaProducto(prev => {
+    const nuevaBusqueda = [termino, ...prev.filter(t => t !== termino)];
+    return nuevaBusqueda.slice(0,10);
+  })
+}
+
+
+//array de guardado de opiniones realizadas
+   const [misOpiniones, setMisOpiniones] = useState(() => {
+    const opinioData = localStorage.getItem('mis__opiniones');
+    return opinioData ? JSON.parse(opinioData) : [];
+   });
+
+   useEffect(() => {
+    localStorage.setItem('mis__opiniones', JSON.stringify(misOpiniones));
+   }, [misOpiniones]);
+
+const guardarOpinion = (nuevaOpinion) => {
+  const opinioConFecha = {
+    ...nuevaOpinion,
+    id: crypto.randomUUID(), //ID unico para cada opinion
+    fecha: new Date().toLocaleDateString()
+  };
+  setMisOpiniones([opinioConFecha, ...misOpiniones]);
+}
+
+
 const eliminarCupon = () => {
-          setDescuento(0);
-      }
+  setUsado([]);
+}
 
   useEffect(() => {
     async function fetchData() {
@@ -169,14 +221,42 @@ const eliminarCupon = () => {
   }
 
 
-          //se calcula total 
+          //se calcula subTotal para cart 
   const subTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
-  const ahorro = subTotal * ((descuento || 0) / 100);
-
-  const totalFinal = subTotal - ahorro;
-
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
+                //funcion para calculara el total a pagar 
+                //calculo del ahorro real (basado en el cupon seleccionado)
+  const calculoTotal = () => {
+    if (!nombreCuponActivo) return 0;
+
+    // Verificamos compra minima (200 pesos)
+    if (subTotal < nombreCuponActivo.min) {
+        return 0; //no aplica el descuento si no llega al minimo
+    }
+
+    const catCupon = nombreCuponActivo.categoria?.toLowerCase();
+
+    if (catCupon === 'todas' || catCupon === 'todos') {
+      return nombreCuponActivo.tipo === 'porcentaje' 
+      ? subTotal * (nombreCuponActivo.valor / 100) : nombreCuponActivo.valor;
+    } else {
+      // Solo aplicamos el descuento a los productos de la categoria especifica
+      const subTotalCatgoria = cart.filter(item => item.category.toLowerCase() === catCupon)
+      .reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+      return nombreCuponActivo.tipo === 'porcentaje' ? subTotalCatgoria * (nombreCuponActivo.valor / 100) : 0;  // 0 el valor fijo solo aplica
+    }
+  }
+
+  const ahorro = calculoTotal();
+
+  const enviar = (subTotal > 0 && (subTotal - ahorro) < 100) ? 60 : 0;
+
+  // VARIABLE para el decuento aplicado
+  const totalFinal = Math.max(0, subTotal - ahorro) + enviar;
+
 
 
     // funcion para eliminar un producto completo (sin importar la contidad)
@@ -214,15 +294,16 @@ const eliminarCupon = () => {
     const finalizarCompra = (productos, total) => {
     //validacion de los cupones
     if (nombreCuponActivo) {
-      setUsado([...usado, nombreCuponActivo]);
+      setUsado(prevUsado => [...prevUsado, nombreCuponActivo.codigo]);
+      setDescuento(0);
     }
     registrarCompra(productos, total);
 
-    alert('Pago procesado con exito');
-
     setCart([]);
-    setDescuento(0)
-    navigate('/pagoExito');
+    setNombreCuponActivo(null);
+
+    alert('Pago procesado con exito');
+     navigate('/pagoExito');
   }
 
 
@@ -230,51 +311,52 @@ const eliminarCupon = () => {
     const irAGarantia = () => {
       if (cart.length === 0) return alert('Carrito esta vacio');
 
-      const tieneGarantia = cart.some(product => product.price > 100);
+      const tieneGarantia = cart.some(product => product.price > 200);
 
       if (tieneGarantia) {
-        navigate('/compraAhora', { state: { misProductos: cart }});
+        navigate('/compraAhora', { state: { misProductos: cart,
+          totalApagar: totalFinal
+         }});
       } else {
-        navigate('/direccion', { state: { misProductos: cart }});
+        navigate('/direccion', { state: { misProductos: cart
+          , totalApagar: totalFinal
+         }});
       }
   };
 
 
   const garantia = () => {
-
     const tieneGarantia = cart.some(product => product.price > 100);
 
     if(tieneGarantia) {
-      navigate('/compraAhora', { state: { misProductos: cart }});
+      navigate('/compraAhora', { state: { misProductos: cart, totalApagar: totalFinal }});
     } else {
       finalizarCompra();
     }
   }
 
 
-  const irDireccion = (totaCalculo) => {
-    navigate('/direccion', { state: { totalApagar: totaCalculo }});
+  const irDireccion = () => {
+    navigate('/direccion', { state: { misProductos: cart, totalApagar: totalFinal }});
   }
-
-
 
   return (
       <main className='container'>
         <Routes>
           <Route path='/' element={<Navigate to={'/inicio'} replace /> } />
           <Route path='/inicio' element={ <> <h1 className='title__principal'>Productos</h1> <ProductList products={products} addToCart={addToCart} toggleFavorito={toggleFavorito} favorito={favorito} /> </> } />
-          <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} /> } />
-          <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} />}/>
+          <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} nombreCuponActivo={nombreCuponActivo?.codigo} /> } />
+          <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} cuponesValidos={cuponesValidos} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
           <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} garantia={garantia} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
           <Route path='/compraAhora' element={<CompraAhora totalFinal={totalFinal} irDireccion={irDireccion} loading={loading} setLoading={setLoading} /> } />
-          <Route path='/direccion' element={<Direccion usuario={usuario} setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
+          <Route path='/direccion' element={<Direccion usuario={usuario} setLoading={setLoading} loading={loading} /> } />
           <Route path='/finalizarCompra' element={<FinalizarCompra setCart={setCart} cart={cart} finalizarCompra={finalizarCompra} /> } />
           <Route path='/pagoExito' element={<PagoExito /> } />
-          <Route path='/miCuenta' element={<MiCuenta registro={guardarCuenta} misCompras={misCompras} usuario={usuario} favorito={favorito} toggleFavorito={toggleFavorito}  addToCart={addToCart} /> } />
+          <Route path='/miCuenta' element={<MiCuenta registro={guardarCuenta} misCompras={misCompras} misOpiniones={misOpiniones} guardarOpinion={guardarOpinion} usuario={usuario} favorito={favorito} toggleFavorito={toggleFavorito}  addToCart={addToCart} usado={usado} nombreCuponActivo={nombreCuponActivo} setNombreCuponActivo={setNombreCuponActivo} cuponesValidos={cuponesValidos}  /> } />
           <Route path='/miPerfil' element={<MiPerfil usuario={usuario} /> } />
-          <Route path='/buscar' element={<Buscar products={products} addToCart={addToCart} /> } />
+          <Route path='/buscar' element={<Buscar products={products} addToCart={addToCart} agregarBusqueda={agregarBusqueda} /> } />
           <Route path='/favoritos' element={<Favoritos addToCart={addToCart} toggleFavorito={toggleFavorito} favorito={favorito} products={products} /> } />
           <Route path='/categoria' element={<Categoria products={products} favorito={favorito} toggleFavorito={toggleFavorito} addToCart={addToCart} /> } />
       </Routes>

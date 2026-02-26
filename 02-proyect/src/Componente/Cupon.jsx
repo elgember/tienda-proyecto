@@ -1,23 +1,21 @@
 import { useEffect, useRef, useState,  } from "react"
 import { HistorialCupon } from "./HistorialCupon";
 
-export const Cupon = ({ setDescuento, eliminarCupon, usado, setUsado, setNombreCuponActivo }) => {
+export const Cupon = ({ setDescuento, eliminarCupon, usado, setUsado, setNombreCuponActivo, cuponesValidos }) => {
 
     const [mover, setMover] = useState(true);
-
     const [codigo, setCodigo] = useState('');
-
     const [mensaje, setMensaje] = useState('');
 
     const contentRet = useRef(null);
-
     const inputRet = useRef(null);
 
+    //limpiar mensaje despues de mostrarlo
     useEffect(()=> {
         if(mensaje !== '') {
             const time = setTimeout(() => {
                 setMensaje('');
-            },2000);
+            }, 2000);
             return () => clearTimeout(time);
         }
     },[mensaje]);
@@ -27,7 +25,7 @@ export const Cupon = ({ setDescuento, eliminarCupon, usado, setUsado, setNombreC
         if (inputRet.current) {
             inputRet.current.focus();
         }
-    },[]);
+    }, []);
 
 
     const toggleAccordion = ()=> {
@@ -36,38 +34,31 @@ export const Cupon = ({ setDescuento, eliminarCupon, usado, setUsado, setNombreC
 
 
     const aplicarCupon = () => {
-
         const codigoLimpio = codigo.trim().toUpperCase();
 
-        const cuponesValidos = {
-            'PROMO': 20,
-            'OFERTA': 50,
-            'OFERTON': 20,
-            'PRO': 20,
-            'OFER': 20,
-            'LE': 20
-        }
+        //buscar el objeto completo del cupon
+        const cuponEncontrado = cuponesValidos.find(c => c.codigo === codigoLimpio);
 
-        if(!cuponesValidos[codigoLimpio]) {
+        if(!cuponEncontrado) {
             setMensaje('Codigo no Valido');
             setDescuento(0);
+            setNombreCuponActivo(null);
             return;
         }
+
+        //Verificar si el cupon ya fue usado
         if (usado.includes(codigoLimpio)) {
             setMensaje('Codigo ya fue Utilizado');
             return;
         }
     
-    const valorDescuento = cuponesValidos[codigoLimpio];
-    setDescuento(valorDescuento);
-    setNombreCuponActivo(codigoLimpio);
-    setUsado([...usado, codigoLimpio]);
+    // mandar el descuento al componente padre
+    setNombreCuponActivo(cuponEncontrado);
+    setDescuento(cuponEncontrado.valor);
 
-    setMensaje(`Exito ${valorDescuento} % aplicado`);
+    setMensaje(`Exito ${cuponEncontrado.codigo} % aplicado`);
 
-    
     setCodigo('');
-
     }
     
     return (

@@ -1,0 +1,14 @@
+.section {
+    text-align: center;
+}
+
+.perfil__usuario {
+    padding: 10px;
+    background-color: #47e;
+    padding: 20px;
+}
+
+.icon__usuario {
+    width: 70px;
+    height: 70px;
+}
