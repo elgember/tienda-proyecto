@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ListaGarantia } from "./ListaGarantia";
+import s from './CompraAhora.module.css';
 
 export const CompraAhora = ({ totalFinal, irDireccion, loading, setLoading }) => {
 
@@ -10,7 +11,7 @@ export const CompraAhora = ({ totalFinal, irDireccion, loading, setLoading }) =>
     const [selecciones, setSeleciones] = useState({});
 
     return (
-    <div className="wrapper__compra">
+    <div className={s.wrapper__compra}>
         <ListaGarantia selecciones={selecciones} setSelecciones={setSeleciones} desvanecer={desvanecer} setDesvanecer={setDesvanecer} loading={loading}  setLoading={setLoading} totalFinal={totalFinal} irDireccion={irDireccion} />
     </div>
     )

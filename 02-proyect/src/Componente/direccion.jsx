@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Btn__volver } from "./page/btn__volver"
 import { useLocation, useNavigate } from "react-router-dom";
+import s from './Direccion.module.css';
 
 export const Direccion = ({ loading, setLoading, totalApagar, usuario }) => {
 
@@ -176,44 +177,44 @@ if (confirmado && datosCliente.direccion) {
     );
 }
     return (
-        <section className="section__envio">
-        <div className="volver">
+        <section className={s.section__envio}>
+        <div className={s.volver}>
             <Btn__volver/>
         </div>
-        <div className="section__title">
-            <h2 className="envio__title">direcion de envio</h2>
+        <div className={s.section__title}>
+            <h2 className={s.envio__title}>direcion de envio</h2>
         </div>
-        <div className="envio__informacion">
-            <div className="envio__nombre envio__apellido">
-                <label htmlFor="name" className="label">En caso de tener dos ambos nombres
-                    <input className="nombre" value={datosCliente.name} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('name')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="name" id="ed" placeholder="Name" />
+        <div className={s.envio__informacion}>
+            <div className={`${s.envio__nombre} ${s.envio__apellido}`}>
+                <label htmlFor="name" className={s.label}>En caso de tener dos ambos nombres
+                    <input className={s.nombre} value={datosCliente.name} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('name')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="name" id="ed" placeholder="Name" />
                     {campoActivo === 'name' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
             </div>
-            <div className="envio__apellido">
-                <label htmlFor="firstName" className="label">Primer Apellido
-                    <input className="apellido" value={datosCliente.firstName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('firstName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="firstName" id="firtNombre" placeholder="Primer Apellido" />
+            <div className={s.envio__apellido}>
+                <label htmlFor="firstName" className={s.label}>Primer Apellido
+                    <input className={s.apellido} value={datosCliente.firstName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('firstName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="firstName" id="firtNombre" placeholder="Primer Apellido" />
                     {campoActivo === 'firstName' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
             </div>
-            <div className="envio__apellido">
-                <label htmlFor="lastName" className="label">Segundo Apellido
-                    <input className="apellido" value={datosCliente.lastName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('lastName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="lastName" id="lastNombre" placeholder="Segundo Apellido" />
+            <div className={s.envio__apellido}>
+                <label htmlFor="lastName" className={s.label}>Segundo Apellido
+                    <input className={s.apellido} value={datosCliente.lastName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('lastName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="lastName" id="lastNombre" placeholder="Segundo Apellido" />
                     {campoActivo === 'lastName' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
             </div>
         </div>
-        <div className="container__direccion">
+        <div className={s.container__direccion}>
             <label htmlFor="direccion">Direccion
-                <input className="envio__direccion" type="text" value={datosCliente.direccion} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('direccion')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
+                <input className={s.envio__direccion} type="text" value={datosCliente.direccion} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('direccion')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
             </label>
         </div>
-        <div className="container__numero">
+        <div className={s.container__numero}>
                 <label htmlFor="num">Telefono
                     <input type="tel" name="telefono" value={datosCliente.telefono} onChange={datoNombre} onKeyDown={enterKey} id="num" onFocus={()=> setCampoActivo('telefono')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} placeholder="Numero de telefono" />
                 </label>
         </div>
-        <div className="container__boton">
+        <div className={s.container__boton}>
             <button className={`guardar__direccion ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={()=> cargarCompraFinal()} >{loading ? 'cargando...' : 'Guardar Direccion'}</button>
         </div>
     </section>

@@ -1,6 +1,7 @@
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 import { Btn__volver } from "./page/btn__volver";
 import { useEffect } from "react";
+import s from './ProductDetalles.module.css';
 
 export const ProductDetalles = ({ products, addToCart, setLoading, garantia }) => {
 
@@ -27,20 +28,20 @@ export const ProductDetalles = ({ products, addToCart, setLoading, garantia }) =
     }
 
     return (
-    <div className="detalle__contenedor">
+    <div className={s.detalle__contenedor}>
         <Btn__volver/>
-        <div className="detalle__titulo">
+        <div className={s.detalle__titulo}>
                 <h2>{product.title}</h2>
         </div>
-        <div className="detalle__contenido">
-            <img className="detalle__imagen" src={product.image} alt={product.title} />
+        <div className={s.detalle__contenido}>
+            <img className={s.detalle__imagen} src={product.image} alt={product.title} />
         </div>
-        <div className="detalle__info">
-                <p className="detalle__category">{product.category}</p>
-                <p className="detalle__description">{product.description}</p>
-                <p className="detalle__price">${product.price}</p>
-                <button className="btn__add" onClick={()=> addToCart(product)}>Agregar al carrito</button>
-                <button className="btn__pagar" onClick={garantia}>Comprar</button>
+        <div className={s.detalle__info}>
+                <p className={s.detalle__category}>{product.category}</p>
+                <p className={s.detalle__description}>{product.description}</p>
+                <p className={s.detalle__price}>${product.price}</p>
+                <button className={s.btn__add} onClick={()=> addToCart(product)}>Agregar al carrito</button>
+                <button className={s.btn__pagar} onClick={garantia}>Comprar</button>
             </div>
     </div>
     )

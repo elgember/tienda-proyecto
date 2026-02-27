@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom"
+import s from './PagoExito.module.css';
 
 export const PagoExito = () => {
 
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className={s.container__pago}>
             <div>
                 <h2>Pedido Confirmado</h2>
                 <p>

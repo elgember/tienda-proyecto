@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState,  } from "react"
 import { HistorialCupon } from "./HistorialCupon";
+import s from './Cupon.module.css';
 
 export const Cupon = ({ setDescuento, eliminarCupon, usado, setUsado, setNombreCuponActivo, cuponesValidos }) => {
 
@@ -62,22 +63,22 @@ export const Cupon = ({ setDescuento, eliminarCupon, usado, setUsado, setNombreC
     }
     
     return (
-    <section className="section">
+    <section className={s.section}>
         <div>
-            <h3 className="title__cupones">Cupones</h3>
+            <h3 className={s.title__cupones}>Cupones</h3>
             <button onClick={eliminarCupon}>eliminar</button>
         </div>
            <div className={`acordion__container ${mover ? 'active' : ''}`}>
-            <div className="acordion__header" onClick={toggleAccordion}>
-                <span className="span__flecha">Ingresar codigo</span>
+            <div className={s.acordion__header} onClick={toggleAccordion}>
+                <span className={s.span__flecha}>Ingresar codigo</span>
                 <span className={`arrow__icon ${mover ? 'rotate' : ''}`}></span>
             </div>
-            <div className="acordion__content" ref={contentRet} style={{maxHeight: mover ? `${contentRet.current?.scrollHeight}px` : '0px'}}>
-                <div className="inner__padding">
-                    <input type="text" className="text__cupon" ref={inputRet} value={codigo}
+            <div className={s.acordion__content} ref={contentRet} style={{maxHeight: mover ? `${contentRet.current?.scrollHeight}px` : '0px'}}>
+                <div className={s.inner__padding}>
+                    <input type="text" className={s.text__cupon} ref={inputRet} value={codigo}
                      onChange={(e) => setCodigo(e.target.value)}
                       onKeyDown={(e)=> { if(e.key === 'Enter') { aplicarCupon(); }}}/>
-                    <button className="btn__cupon" onClick={aplicarCupon}>Agregar cupon</button>
+                    <button className={s.btn__cupon} onClick={aplicarCupon}>Agregar cupon</button>
                     {mensaje && <p>{mensaje}</p>}
                 </div>
             </div>

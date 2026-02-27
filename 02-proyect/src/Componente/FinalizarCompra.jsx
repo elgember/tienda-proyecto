@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
+import s from './FinalizarCompra.module.css';
 
 export const FinalizarCompra = ({ setCart, cart, finalizarCompra }) => {
 
@@ -18,15 +19,15 @@ export const FinalizarCompra = ({ setCart, cart, finalizarCompra }) => {
 
 
     return (
-    <div className="section__info">
-        <div className="container__informacion">
-             <h3 className="title__informacion">Tu informacion</h3>
-            <div className="usuario__informacion">
+    <div className={s.section__info}>
+        <div className={s.container__informacion}>
+             <h3 className={s.title__informacion}>Tu informacion</h3>
+            <div className={s.usuario__informacion}>
                 <p><strong>Nombre: </strong>{cliente.name} {cliente.firstName} {cliente.lastName}</p>
                 <p><strong>Direccion: </strong>{cliente.direccion}</p>
                 <p><strong>Telefono: </strong>{cliente.telefono}</p>
             </div>
-            <div className="editar__informacion">
+            <div className={s.editar__informacion}>
                 <button onClick={manejarEdicion}>Editar</button>
             </div>
         </div>
@@ -34,7 +35,7 @@ export const FinalizarCompra = ({ setCart, cart, finalizarCompra }) => {
             <strong>{totalApagar.toFixed(2)}</strong>
         </div>
         <div>
-            <button className="compra__pagar" onClick={()=> finalizarCompra(cart, totalApagar)}>Confirmar y pagar</button>
+            <button className={s.compra__pagar} onClick={()=> finalizarCompra(cart, totalApagar)}>Confirmar y pagar</button>
         </div>
     </div>
     )

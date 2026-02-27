@@ -1,3 +1,5 @@
+import s from './BarraEnvio.module.css';
+
 export const BarraEnvio = ({ totalFinal }) => {
 
     const metaEnvio = 200;
@@ -29,21 +31,21 @@ export const BarraEnvio = ({ totalFinal }) => {
     }
     
     return (
-    <div className="container__barra">
-        <div className="barra">
-            <h3 className="barra__envio">Envio Gratis</h3>
+    <div className={s.container__barra}>
+        <div className={s.barra}>
+            <h3 className={s.barra__envio}>Envio Gratis</h3>
             <span className={`porcentaje__envio ${colorPorcentaje}`}>{Math.round(porcentaje)}%</span>
         </div>
-        <div className="barra__fondo">
+        <div className={s.barra__fondo}>
             <div className={`barra__color ${colorBarra}`} style={{width: `${porcentaje}%` }}></div>
         </div>
         <div>
             {totalFinal >= metaEnvio ? (
-                <div className="container__envio">
-                    <p className="env__desbloqueado">Envio Gratis Desbloqueado</p>
+                <div className={s.container__envio}>
+                    <p className={s.env__desbloqueado}>Envio Gratis Desbloqueado</p>
                 </div>
             ) : (
-                <p className="p__agregar">Agrega <span className="s__faltante">${faltante.toFixed(2)}</span> para no pagar envio</p>
+                <p className={s.p__agregar}>Agrega <span className={s.s__faltante}>${faltante.toFixed(2)}</span> para no pagar envio</p>
             ) }
         </div>
     </div>
