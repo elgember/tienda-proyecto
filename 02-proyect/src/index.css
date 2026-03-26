@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+
+/* estilos de la lista de opciones menuPrincipal */
+.menu-option {
+    @apply flex flex-col items-center gap-4 p-2 cursor-pointer;
+}
