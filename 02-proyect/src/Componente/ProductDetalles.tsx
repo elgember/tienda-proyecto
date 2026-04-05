@@ -8,9 +8,10 @@ interface ProductDetallesProps {
     addToCart: (product: Producto) => void;
     setLoading: (state: boolean | null) => void;
     garantia: () => void;
+    comprarProducto: (product: Producto) => void;
 }
 
-export const ProductDetalles = ({ products, addToCart, setLoading, garantia }: ProductDetallesProps) => {
+export const ProductDetalles = ({ products, addToCart, setLoading, garantia, comprarProducto }: ProductDetallesProps) => {
 
     //todo lo que biene de la URL es texto y el id es un numero, por eso lo convertimos a numero con Number()
     const { id } = useParams<{ id: string }>();  // captura el id de la URL
@@ -48,11 +49,11 @@ export const ProductDetalles = ({ products, addToCart, setLoading, garantia }: P
         </div>
         <div className="flex flex-col gap-4">
                 <p className='font-light'>{product.category}</p>
-                <p className='break-words font-light'>{product.description}</p>
+                <p className='font-light'>{product.description}</p>
                 <p className=''>${product.price.toFixed(2)}</p>
                 <div className="flex gap-4 justify-center mb-4 flex-col">
                     <button className='bg-[#48e] text-white p-3 px-4 rounded-sm' onClick={()=> addToCart(product)}>Agregar al carrito</button>
-                    <button className='bg-[#f00] text-white p-3 px-4 rounded-sm' onClick={garantia}>Comprar</button>
+                    <button className='bg-[#f00] text-white p-3 px-4 rounded-sm' onClick={() => comprarProducto(product)}>Comprar</button>
                 </div>
             </div>
     </div>

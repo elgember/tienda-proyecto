@@ -67,7 +67,6 @@ export const BarraMenuPrincipal = ( { usuario, setVistaActual, mostrarMenu, setM
                 </div>
                 <div className='menu-option' onClick={()=> irA('oferta')}>
                     <Icon icon="ic:outline-local-offer" width="24" height="24" />
-                    <p className=''>%</p>
                     <p className=''>Ofertas</p>
                 </div>
                 <div className='menu-option' onClick={()=> irA('cupones')}>

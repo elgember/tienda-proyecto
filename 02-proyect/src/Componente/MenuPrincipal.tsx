@@ -14,18 +14,18 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }: MenuPrinciapalProps)
     const navigate = useNavigate();
 
     return (
-    <div className='w-screen h-screen relative'>
+    <div className='w-screen h-screen relative bg-white'>
             <div>
-                <div className='flex w-screen items-center px-8 p-4 gap-4'>
+                <div className='flex w-full items-center px-8 p-4 gap-4'>
                     <Icon icon="gg:profile" width="28" height="28" />
                     <h2 className=''>{usuario.name} {usuario.firstName}</h2>
                 </div>
-                <div className='w-screen'>
+                <div>
                     <IrToProfile />
                 </div>
             </div>
         {/* lista de opciones */}
-            <div className='w-screen'>
+            <div className='px-8 py-4'>
                 <div className='menu-option' onClick={() => navigate('/inicio')}>
                     <Icon icon="mingcute:home-4-line" width="26" height="28" />
                     <p className=''>Inicio</p>
@@ -50,9 +50,9 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }: MenuPrinciapalProps)
                     <Icon icon="iconamoon:heart-light" width="24" height="24" />
                     <p className=''>Favoritos</p>
                 </div>
-                <div className='menu-option' onClick={()=> setVistaActual('oferta')}>
-                    <Icon icon="ic:outline-local-offer" width="24" height="24" />
-                    <p className=''>%</p>
+                <div className='menu-option relative' onClick={()=> setVistaActual('oferta')}>
+                    <Icon icon="ic:outline-local-offer" width="28" height="28" />
+                    <p className='absolute top-3 left-1'>%</p>
                     <p className=''>Ofertas</p>
                 </div>
                 <div className='menu-option' onClick={()=> setVistaActual('cupones')}>
@@ -68,10 +68,8 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }: MenuPrinciapalProps)
                     <p className=''>Historial</p>
                 </div>
             </div>
-            <div className='w-screen absolute bottom-0 p-2'>
-                <div>
-                    <p>Terminos y condiciones</p>
-                </div>
+            <div className='w-full'>     
+                    <p className='text-center absolute bottom-0 p-4'>Terminos y condiciones</p>
             </div>
         </div>
     );

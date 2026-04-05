@@ -171,22 +171,21 @@ export const Direccion = ({ loading, setLoading, totalApagar, usuario }: Direcci
 
 if (confirmado && datosCliente.direccion) {
     return (
-        <section>
-            <div>
+        <section className="pb-6 mb-4">
+            <div className="p-4">
                  <Btn__volver/>
             </div>
-            <h2>Confirma tu direccion de envio</h2>
+            <h2 className="text-center mb-5 font-bold text-2xl">Confirma tu direccion de envio</h2>
             <div>
-                <div>
+                <div className="flex flex-col gap-2 mx-4">
                     <p><strong>Entrega a:</strong> {datosCliente.name} {datosCliente.firstName} {datosCliente.lastName}</p>
                     <p><strong>Direccion:</strong> {datosCliente.direccion}</p>
-                    
                     <p><strong>Telefono</strong> {datosCliente.telefono}</p>
                 </div>
-                <button onClick={() => setConfirmado(false)}>Modificar direccion</button>
             </div>
-            <div>
-                <button onClick={cargarCompraFinal}> 
+            <div className="flex justify-center gap-4 my-10 mx-4">
+                <button className="bg-red-500 text-white py-2 px-4 rounded" onClick={() => setConfirmado(false)}>Modificar direccion</button>
+                <button className="bg-[#48e] text-white py-2 px-12 rounded" onClick={cargarCompraFinal}> 
                     {loading ? 'procesando...' : 'Confirmar'}
                 </button>
             </div>
@@ -194,45 +193,43 @@ if (confirmado && datosCliente.direccion) {
     );
 }
     return (
-        <section className=''>
-        <div className=''>
+        <section className='p-6 relative'>
+        <div className='absolute top-4 left-4'>
             <Btn__volver/>
         </div>
         <div className=''>
-            <h2 className=''>direcion de envio</h2>
+            <h2 className='text-center mb-5 font-bold text-2xl'>Direccion de envio</h2>
         </div>
         <div className=''>
             <div className=''>
-                <label htmlFor="name" className=''>En caso de tener dos ambos nombres
-                    <input className='' value={datosCliente.name} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('name')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="name" id="ed" placeholder="Name" />
+                <label htmlFor="name">En caso de tener dos (ambos nombres) <br />
+                    <input className='input__direccion w-full' value={datosCliente.name} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('name')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="name" id="ed" placeholder="Name" />
                     {campoActivo === 'name' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
             </div>
-            <div className=''>
-                <label htmlFor="firstName" className={s.label}>Primer Apellido
-                    <input className='' value={datosCliente.firstName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('firstName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="firstName" id="firtNombre" placeholder="Primer Apellido" />
+            <div className='flex w-full gap-4 py-4'>
+                <label htmlFor="firstName" className=''>Primer Apellido
+                    <input className='input__direccion w-full' value={datosCliente.firstName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('firstName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="firstName" id="firtNombre" placeholder="Primer Apellido" />
                     {campoActivo === 'firstName' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
-            </div>
-            <div className=''>
                 <label htmlFor="lastName" className=''>Segundo Apellido
-                    <input className='' value={datosCliente.lastName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('lastName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="lastName" id="lastNombre" placeholder="Segundo Apellido" />
+                    <input className='input__direccion w-full' value={datosCliente.lastName} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('lastName')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} type="text" name="lastName" id="lastNombre" placeholder="Segundo Apellido" />
                     {campoActivo === 'lastName' && sugerenciaActual && ( <span><strong>{sugerenciaActual}</strong></span>)}
                 </label>
             </div>
         </div>
         <div className=''>
             <label htmlFor="direccion">Direccion
-                <input className='' type="text" value={datosCliente.direccion} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('direccion')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
+                <input className='input__direccion w-full' type="text" value={datosCliente.direccion} onChange={datoNombre} onKeyDown={enterKey} onFocus={()=> setCampoActivo('direccion')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} name="direccion" id="direccion__usuario" placeholder="Tu Direccion" />
             </label>
         </div>
         <div className=''>
                 <label htmlFor="num">Telefono
-                    <input type="tel" name="telefono" value={datosCliente.telefono} onChange={datoNombre} onKeyDown={enterKey} id="num" onFocus={()=> setCampoActivo('telefono')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} placeholder="Numero de telefono" />
+                    <input className='input__direccion w-full' type="tel" name="telefono" value={datosCliente.telefono} onChange={datoNombre} onKeyDown={enterKey} id="num" onFocus={()=> setCampoActivo('telefono')} onBlur={()=> setTimeout(()=> setCampoActivo(''), 200)} placeholder="Numero de telefono" />
                 </label>
         </div>
-        <div className=''>
-            <button className={`guardar__direccion ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={()=> cargarCompraFinal()} >{loading ? 'cargando...' : 'Guardar Direccion'}</button>
+        <div className='text-center mt-10'>
+            <button className={`bg-[#48e] text-white py-2 px-4 rounded-md ${!formularioCompleto ? 'btn__desabilitado' : '' } ${shake ? 'shake-animation' : '' } `} onClick={()=> cargarCompraFinal()} >{loading ? 'cargando...' : 'Guardar Direccion'}</button>
         </div>
     </section>
     );

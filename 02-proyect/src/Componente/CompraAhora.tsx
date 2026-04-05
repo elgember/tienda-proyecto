@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState } from "react";
 import { ListaGarantia } from "./ListaGarantia";
+import { useLocation } from "react-router-dom";
 
 interface CompraAhoraProps {
     totalFinal: number;
@@ -9,6 +10,8 @@ interface CompraAhoraProps {
 }
 
 export const CompraAhora = ({ totalFinal, irDireccion, loading, setLoading }: CompraAhoraProps) => {
+
+    const location = useLocation();
 
     //estado salida de animacion
     const [desvanecer, setDesvanecer] = useState<boolean>(false);

@@ -3,5 +3,15 @@
 
 /* estilos de la lista de opciones menuPrincipal */
 .menu-option {
-    @apply flex flex-col items-center gap-4 p-2 cursor-pointer;
+    @apply flex gap-4 py-3 cursor-pointer;
+}
+
+/* estilos de los inputs de direccion del usuario */
+.input__direccion {
+    @apply bg-white px-2 py-1 border border-gray-300 rounded;
+}
+
+/* estilos de los inputs del formulario de registro */
+.cuenta__input {
+    @apply bg-white px-2 py-1 border border-gray-300 rounded;
 }

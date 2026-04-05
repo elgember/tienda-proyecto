@@ -41,7 +41,7 @@ export const Cart: React.FC<CartProps> = ({ cart, removeFromCart, menosProduct, 
         ) : (    
 
     /* secion de los productos en el carrito */
-             <div className='rounded-md p-4 w-full grid grid-cols-1 md:grid-cols-2 gap-10 bg-amber-50'>
+             <div className='rounded-md p-4 w-full grid grid-cols-1 md:grid-cols-2 gap-10 bg-white'>
 
     {/* contenedor de productos agregados  */}
             <div>

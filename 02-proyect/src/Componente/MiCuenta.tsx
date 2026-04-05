@@ -36,12 +36,11 @@ interface MiCuentaProps {
     setVistaActual: (vista: string) => void;
 }
 
-
 export const MiCuenta = ({ registro, usuario, favorito, toggleFavorito, addToCart , misCompras, usado, nombreCuponActivo, setNombreCuponActivo, cuponesValidos, misOpiniones, guardarOpinion, products, vistaActual, setVistaActual }: MiCuentaProps) => {
 
 
     const [datosForm, setDatosForm] = useState<Usuario>({
-        name: '', firstName: '', lastName: '', email: '', telefono: '', direccion: '',});
+        name: '', firstName: '', lastName: '', email: '', telefono: '', direccion: '', cart: []});
 
     const crear = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -69,9 +68,9 @@ export const MiCuenta = ({ registro, usuario, favorito, toggleFavorito, addToCar
     }
 
     return (
-        <div className='w-full'>
+        <div className='relative'>
             {vistaActual !== 'menu' && vistaActual !== '' && (
-                <button onClick={()=> setVistaActual('menu')} className=''><Icon icon="solar:arrow-left-linear" width="24" height="24" className='' /></button>
+                <button onClick={()=> setVistaActual('menu')} className='absolute top-4 left-4'><Icon icon="solar:arrow-left-linear" width="24" height="24" className='' /></button>
             )}
             <div className=''>
                 {renderContent()}

@@ -76,19 +76,19 @@ export const ListaGarantia = ({ totalFinal, setLoading, loading, selecciones, se
 
     
     return (
-    <div className=''>
+    <div className='flex flex-col h-full'>
         <div className={`garantia  ${desvanecer ? 'fade-out' : 'fade-in'}`}>
-            <h2 className=''>Agrega una proteccion para este producto</h2>
+            <h2 className='text-center p-4 text-2xl'>Agrega una proteccion para este producto</h2>
         {misProductos.filter(product => product.price > 100).map((product) => {
             // se calculan los precios 
             const precio18 = product.price * 0.8;
             const precio24 = product.price * 0.9;
 
     return (
-        <div key={product.id} className=''>
+        <div key={product.id} className='border-b border-solid m-4 p-4 flex flex-col gap-2'>
             <div className=''>
                 <div className=''>
-                    <img className='' src={product.image} alt={product.title} />
+                    <img className='w-40 h-40 object-contain mx-auto border-4 rounded-[50%] border-green-600' src={product.image} alt={product.title} />
                 </div>
                 <div className=''>
                     <p className=''>proteccion para:</p>
@@ -96,23 +96,23 @@ export const ListaGarantia = ({ totalFinal, setLoading, loading, selecciones, se
                 </div>
             </div>
                                 {/* Opcion de 12 meses garantia */}
-            <div className={`opcion ${selecciones[product.id]?.tipo === '12' ? 'active' : ''}`} onClick={() => seleccionarGarantia(product.id, 50, '12')}>
+            <div className={`flex  justify-between items-center ${selecciones[product.id]?.tipo === '12' ? 'active' : ''}`} onClick={() => seleccionarGarantia(product.id, 50, '12')}>
                 <p>12 meses de Garantia extendida</p>
                 <span className=''>$ 50</span>
             </div>
                                 {/* Opcion de 18 Meses garantia */}
-            <div className={`opcion ${selecciones[product.id]?.tipo === '18' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, precio18, '18')}>
+            <div className={`flex justify-between items-center ${selecciones[product.id]?.tipo === '18' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, precio18, '18')}>
                 <p>18 meses de Garantia extendida</p>
                 <div className=''>
-                    <span className=''>$ {precio18.toFixed(2)}</span>
+                    <span className='px-4'>$ {precio18.toFixed(2)}</span>
                     <span className=''>20% OFF</span>
                 </div>
             </div>
                                 {/* Opcion de 24 Meses garantia */}
-            <div className={`opcion ${selecciones[product.id]?.tipo === '24' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, precio24, '24')}>
+            <div className={`flex justify-between items-center ${selecciones[product.id]?.tipo === '24' ? 'active' : ''}`} onClick={()=> seleccionarGarantia(product.id, precio24, '24')}>
                 <p>24 meses de Garantia extendida</p>
-                <div className=''>
-                    <span className=''>$ {precio24.toFixed(2)}</span>
+                <div className='m-2'>
+                    <span className='px-4'>$ {precio24.toFixed(2)}</span>
                     <span className=''>10% OFF</span>
                 </div>
             </div>
@@ -120,7 +120,7 @@ export const ListaGarantia = ({ totalFinal, setLoading, loading, selecciones, se
             )
 })}
         </div>
-        <div className=''>
+        <div className='flex gap-4 '>
             <button className={`garantia__aceptar no--garantia ${loading === 'no__gracias' ? 'btn__loading' : '' }`} onClick={()=> cargarDireccion(totalFinal, 'no__gracias')} disabled={loading !== null} > {loading === 'no__gracias' ? <div className="animation"></div> : `No, Gracias`}</button>
             <button className={`garantia__aceptar agregar--garantia ${loading === 'agregar' ? 'btn__loading' : '' } `} onClick={()=> cargarDireccion(totalGarantia, 'agregar')} disabled={loading !== null} >{loading === 'agregar' ? <div className="animation"></div> : `agregar` }</button>
             <div className=''>

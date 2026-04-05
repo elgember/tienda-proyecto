@@ -13,11 +13,11 @@ import { PagoExito } from './Componente/PagoExito';
 import { MenuBarra } from './Componente/MenuBarra';
 import { MiCuenta } from './Componente/MiCuenta';
 import { MiPerfil } from './Componente/MiPerfil';
-import { Buscar } from './Componente/Buscar';
+import { Busqueda } from './Componente/Busqueda';
 import { Favoritos } from './Componente/Content/Favoritos';
 import { Categoria } from './Componente/BarraMenu/Categoria';
-import { BarraMenuPrincipal } from './Componente/page/BarraMenuPrincipal';
 import { Producto, CuponProps, Compra, Usuario, Opinion } from './Types';
+import { Header } from './Componente/Header';
 
 
 function App() {
@@ -34,7 +34,8 @@ function App() {
   //estado cargando al entrar paginas 
   const [loading, setLoading] = useState<string | null>(null);
 
-   const [cerra, setCerrar] = useState<boolean>(true);
+  // busqueda de los productos
+    const [buscarProduct, setBuscarProduct] = useState('');
 
    // cupones activos
   const [nombreCuponActivo, setNombreCuponActivo] = useState<CuponProps | null>(null);
@@ -195,15 +196,22 @@ const eliminarCupon = () => {
     async function fetchData() {
       setLoading('cargando__inicio');
 
-      try {
-        const response = await fetch('https://fakestoreapi.com/products');
+      try { 
+        const response = await fetch('/api/products'); //usamos el proxy definido en vite.config.js
+
+        if (!response.ok) {
+          throw new Error('Error al cargar los productos');
+        }
+
         const data = await response.json();
         setProducts(data);
       }
+
       catch (error) {
         console.log('Hubo un error', error);
+      } finally {
+        setLoading(null);
       }
-      setLoading(null);
     }
     fetchData();
   },[]);
@@ -337,7 +345,7 @@ const eliminarCupon = () => {
 
 
   const garantia = () => {
-    const tieneGarantia = cart.some(product => product.price > 100);
+    const tieneGarantia = cart.some(product => product.price > 200);
 
     if(tieneGarantia) {
       navigate('/compraAhora', { state: { misProductos: cart, totalApagar: totalFinal }});
@@ -346,33 +354,46 @@ const eliminarCupon = () => {
     }
   }
 
-
   const irDireccion = () => {
     navigate('/direccion', { state: { misProductos: cart, totalApagar: totalFinal }});
   }
+
+  const comprarProducto = (product: Producto) => {
+    addToCart(product);
+    const tieneGarantia = product.price > 200;
+
+    if(tieneGarantia) {
+      navigate('/compraAhora', { state: { misProductos: [product], totalApagar: product.price }});
+    } else {
+    navigate('/direccion', { state: { misProductos: cart, totalApagar: totalFinal }});
+  }
+}
+
 
   return (
       <main className='h-full bg-[#eee] relative'>
         <Routes>
           <Route path='/' element={<Navigate to={'/inicio'} replace /> } />
-          <Route path='/inicio' element={ <> <Buscar cart={cart} usuario={usuario} products={products} addToCart={addToCart} agregarBusqueda={agregarBusqueda} favorito={favorito} toggleFavorito={toggleFavorito} vistaActual={vistaActual} setVistaActual={setVistaActual} /> <ProductList products={products} addToCart={addToCart} toggleFavorito={toggleFavorito} favorito={favorito} /> </> } />
+          <Route path='/inicio' element={ <> <Header buscarProduct={buscarProduct} setBuscarProduct={setBuscarProduct} cart={cart} usuario={usuario} products={products} addToCart={addToCart} agregarBusqueda={agregarBusqueda} favorito={favorito} toggleFavorito={toggleFavorito} vistaActual={vistaActual} setVistaActual={setVistaActual} /> <ProductList products={products} addToCart={addToCart} toggleFavorito={toggleFavorito} favorito={favorito} /> </> } />
           <Route path='/cart' element={<Cart cart={cart} removeFromCart={removeFromCart} menosProduct={menosProduct} addToCart={addToCart} totalItems={totalItems} descuento={descuento} ahorro={ahorro} totalFinal={totalFinal} subTotal={subTotal} finalizarCompra={finalizarCompra} irAGarantia={irAGarantia} nombreCuponActivo={nombreCuponActivo?.codigo} /> } />
           <Route path='/cupon' element={<Cupon setDescuento={setDescuento} eliminarCupon={eliminarCupon} usado={usado} setUsado={setUsado} descuento={descuento} setNombreCuponActivo={setNombreCuponActivo} cuponesValidos={cuponesValidos} />}/>
           <Route path='/barraEnvio' element={<BarraEnvio totalFinal={totalFinal} />} />
-          <Route path='/product/:id' element={<ProductDetalles products={products} addToCart={addToCart} setLoading={setLoading} garantia={garantia} />} />
+          <Route path='/product/:id' element={<ProductDetalles comprarProducto={comprarProducto} products={products} addToCart={addToCart} setLoading={setLoading} garantia={garantia} />} />
           <Route path='/historialCupon' element={<HistorialCupon usado={usado} />} />
           <Route path='/compraAhora' element={<CompraAhora totalFinal={totalFinal} irDireccion={irDireccion} loading={loading} setLoading={setLoading} /> } />
-          <Route path='/direccion' element={<Direccion usuario={usuario} setLoading={setLoading} loading={loading} /> } />
+          <Route path='/direccion' element={<Direccion usuario={usuario} setLoading={setLoading} loading={loading} totalApagar={totalFinal} /> } />
           <Route path='/finalizarCompra' element={<FinalizarCompra setCart={setCart} cart={cart} finalizarCompra={finalizarCompra} /> } />
           <Route path='/pagoExito' element={<PagoExito /> } />
           <Route path='/miCuenta' element={<MiCuenta vistaActual={vistaActual} setVistaActual={setVistaActual} products={products} registro={guardarCuenta} misCompras={misCompras} misOpiniones={misOpiniones} guardarOpinion={guardarOpinion} usuario={usuario} favorito={favorito} toggleFavorito={toggleFavorito}  addToCart={addToCart} usado={usado} nombreCuponActivo={nombreCuponActivo} setNombreCuponActivo={setNombreCuponActivo} cuponesValidos={cuponesValidos}  /> } />
           <Route path='/miPerfil' element={<MiPerfil usuario={usuario} /> } />
           <Route path='/favoritos' element={<Favoritos addToCart={addToCart} toggleFavorito={toggleFavorito} favorito={favorito} products={products} /> } />
           <Route path='/categoria' element={<Categoria products={products} favorito={favorito} toggleFavorito={toggleFavorito} addToCart={addToCart} /> } />
+          <Route path='/busqueda' element={<Busqueda products={products} favorito={favorito} toggleFavorito={toggleFavorito} addToCart={addToCart} buscarProduct={buscarProduct} setBuscarProduct={setBuscarProduct} /> } />
       </Routes>
         <MenuBarra totalItems={totalItems} favorito={favorito} />
       </main>
-  )
+  
+  );
 }
 
 export default App;

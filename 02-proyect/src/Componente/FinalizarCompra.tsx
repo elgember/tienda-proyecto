@@ -38,23 +38,21 @@ export const FinalizarCompra = ({ setCart, cart, finalizarCompra }: FinalizarCom
 
 
     return (
-    <div className=''>
+    <div className='p-4'>
         <div className=''>
-             <h3 className=''>Tu informacion</h3>
-            <div className=''>
+             <h3 className='text-lg font-semibold text-center py-2'>Tu informacion</h3>
+            <div className='flex flex-col gap-2'>
                 <p><strong>Nombre: </strong>{cliente.name} {cliente.firstName} {cliente.lastName}</p>
                 <p><strong>Direccion: </strong>{cliente.direccion}</p>
                 <p><strong>Telefono: </strong>{cliente.telefono}</p>
             </div>
-            <div className=''>
-                <button onClick={manejarEdicion}>Editar</button>
+            <div className='flex justify-end mt-2'>
+                <button className="bg-red-500 text-white px-6 py-2 rounded" onClick={manejarEdicion}>Editar</button>
             </div>
         </div>
-        <div>
-            <strong>{totalApagar.toFixed(2)}</strong>
-        </div>
-        <div>
-            <button className='' onClick={()=> finalizarCompra(cart, totalApagar)} disabled={cart.length === 0}>Confirmar y pagar</button>
+        <div className="my-2">
+            <strong>total a pagar </strong> <p>${totalApagar.toFixed(2)}</p>
+            <button className='bg-[#48e] text-white px-6 py-2 my-2 rounded' onClick={()=> finalizarCompra(cart, totalApagar)} disabled={cart.length === 0}>Confirmar y pagar</button>
         </div>
     </div>
     )

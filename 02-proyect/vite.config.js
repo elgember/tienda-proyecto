@@ -10,4 +10,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://fakestoreapi.com', // URL del backend
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''), // Elimina el prefijo "/api" al hacer la solicitud
+      },
+    },
+  },
 })

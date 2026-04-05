@@ -39,7 +39,6 @@ export interface Usuario {
     email: string;
     direccion: string;
     telefono: string;
-    apellido: string;
 }
 
 export interface Garantia {
