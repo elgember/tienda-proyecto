@@ -22,7 +22,7 @@ import { Header } from './Componente/Header';
 
 function App() {
 
-  // para navegara a garantia 
+  // para navegara a los componentes
   const navigate = useNavigate();
 
   //para guarada los producto 

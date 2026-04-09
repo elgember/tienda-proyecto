@@ -36,22 +36,21 @@ export const MisOpiniones = ({ misCompras = [], misOpiniones = [], guardarOpinio
     const realizadas = misOpiniones;
 
     return (
-    <div>
-        <div>
-            <button className={`${'tabBtn'} ${tabActual === 'pendientes' ? 'active' : ''}`} onClick={() => setTabActual('pendientes')}>Pendientes</button>
-            <button className={`${'tabBtn'} ${tabActual === 'realizadas' ? 'active' : ''}`} onClick={() => setTabActual('realizadas')}>Realizadas</button>
+    <div className='w-full'>
+        <div className='w-full flex justify-evenly gap-4 border-b mb-4'>
+            <button type='button' className={`${'flex-1 py-2'} ${tabActual === 'pendientes' ? 'active border-b-2 border-blue-500' : ''}`} onClick={() => setTabActual('pendientes')}>Pendientes</button>
+            <button type='button' className={`${'flex-1 py-2'} ${tabActual === 'realizadas' ? 'active border-b-2 border-blue-500' : ''}`} onClick={() => setTabActual('realizadas')}>Realizadas</button>
         </div>
         <div>
-            
-                {tabActual === 'pendientes' ? (
-                    pendientes.length > 0 ? (
-                        <div>
-                            {pendientes.map((prod) => (
+            {tabActual === 'pendientes' ? (
+                pendientes.length > 0 ? (
+                    <div>
+                        {pendientes.map((prod) => (
                             <Pendiente key={`pend-${prod.id}`} producto={prod} guardarOpinion={guardarOpinion} alEnviar={()=> setTabActual('realizadas')} /> 
                         ))}
                         </div>
                     ) : (
-                        <p> no tienes opiniones pendientes</p>
+                    <p> no tienes opiniones pendientes</p>
                 )
                 ) : (
                     realizadas.length > 0 ? (

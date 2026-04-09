@@ -10,6 +10,7 @@ import { MenuPrinciapal } from './MenuPrincipal'
 import { FormularioRegistro } from './FormularioRegistro';
 import { Icon } from '@iconify/react';
 import { Usuario, Producto, CuponProps } from '../Types';
+import { Ayuda } from "./Content/Ayuda";
 
 
 interface Opinion {
@@ -55,6 +56,7 @@ export const MiCuenta = ({ registro, usuario, favorito, toggleFavorito, addToCar
     const renderContent = () => {
         switch (vistaActual) {
             case 'notificaciones' : return <Notificaciones />;
+            case 'ayuda' : return <Ayuda usuario={usuario} setVistaActual={setVistaActual} />;
             case 'misCompras' : return <MisCompras misCompras={misCompras} />;
             case 'misOpiniones' : return <MisOpiniones misCompras={misCompras} misOpiniones={misOpiniones} guardarOpinion={guardarOpinion} />;
             case 'oferta' : return <Oferta products={products} addToCart={addToCart} />;
@@ -70,9 +72,9 @@ export const MiCuenta = ({ registro, usuario, favorito, toggleFavorito, addToCar
     return (
         <div className='relative'>
             {vistaActual !== 'menu' && vistaActual !== '' && (
-                <button onClick={()=> setVistaActual('menu')} className='absolute top-4 left-4'><Icon icon="solar:arrow-left-linear" width="24" height="24" className='' /></button>
+                <button onClick={()=> setVistaActual('menu')} className='p-4'><Icon icon="solar:arrow-left-linear" width="24" height="24" className='' /></button>
             )}
-            <div className=''>
+            <div className='w-screen h-screen overflow-auto'>
                 {renderContent()}
             </div>
         </div>

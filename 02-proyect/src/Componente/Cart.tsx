@@ -34,9 +34,9 @@ export const Cart: React.FC<CartProps> = ({ cart, removeFromCart, menosProduct, 
     
     {/* carrorito estando vacio */}
             {cart.length === 0 ? (
-            <div className=''>
-                <p className=''><Icon icon="raphael:cart" width="42" height="42" /><strong>El Carrito Esta Vacio</strong></p>
-                <p className=''>Articulos que te interesaron</p>
+            <div>
+                <p><Icon icon="raphael:cart" width="42" height="42" /><strong>El Carrito Esta Vacio</strong></p>
+                <p>Articulos que te interesaron</p>
             </div>
         ) : (    
 
@@ -46,8 +46,8 @@ export const Cart: React.FC<CartProps> = ({ cart, removeFromCart, menosProduct, 
     {/* contenedor de productos agregados  */}
             <div>
                 <h2 className='text-center text-lg font-semibold'>Carrito</h2>
+                
     {/* barra porcentaje de envio gratis */}
-
                 <div>
                     <BarraEnvio totalFinal={totalFinal}/>
                 </div>

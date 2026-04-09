@@ -52,7 +52,6 @@ export const MenuPrinciapal = ({ setVistaActual, usuario }: MenuPrinciapalProps)
                 </div>
                 <div className='menu-option relative' onClick={()=> setVistaActual('oferta')}>
                     <Icon icon="ic:outline-local-offer" width="28" height="28" />
-                    <p className='absolute top-3 left-1'>%</p>
                     <p className=''>Ofertas</p>
                 </div>
                 <div className='menu-option' onClick={()=> setVistaActual('cupones')}>

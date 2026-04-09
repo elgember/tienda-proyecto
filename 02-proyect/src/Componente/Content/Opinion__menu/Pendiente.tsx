@@ -30,11 +30,11 @@ export const Pendiente = ({ guardarOpinion, producto, alEnviar }: PendienteProps
     }
 
     return (
-    <div>
+    <div className="px-4 bg-white rounded flex items-center gap-4 m-6 py-10">
         <img src={producto.image} alt={producto.title} width='50' />
         <div>
             <p>{producto.title}</p>
-            <div>
+            <div className="flex pb-2">
                 {[1, 2, 3, 4, 5].map((num) => (
                     <Icon key={`${producto.id}-estrella-${num}`} icon={ num <= (hover || rating) ? "material-symbols-light:star-rounded" : "material-symbols-light:star-outline-rounded" } width="24" height="24"
                     className={num <= (hover || rating) ? 'starActive' : 'starEmpty'} onMouseEnter={() => setHover(num)} onMouseLeave={()=> setHover(0)} 
@@ -42,7 +42,7 @@ export const Pendiente = ({ guardarOpinion, producto, alEnviar }: PendienteProps
                 ))}
             </div>
             {rating > 0 && (
-                <button className='' onClick={manejarEnvio}>Enviar</button>
+                <button className='bg-amber-50 px-2 rounded mb-4' onClick={manejarEnvio}>Enviar</button>
             )}
         </div>
     </div>
