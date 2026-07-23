@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* estilos de la lista de opciones menuPrincipal */
+.menu-option {
+    display: flex;
+    gap: 16px;
+    padding: 6px 0 6px 0;
+    cursor: pointer;
+}
+
+/* estilos de los inputs de direccion del usuario */
+.input__direccion {
+    background-color: #fff;
+    padding: 0 4px 0 4px;
+    border: 1px solid #0002;
+    border-radius: 5px;
+}
+
+/* estilos de los inputs del formulario de registro */
+.cuenta__input {
+    background-color: #fff;
+    padding: 2px 4px;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
